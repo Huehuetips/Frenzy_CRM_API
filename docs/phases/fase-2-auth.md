@@ -1,6 +1,6 @@
 # Fase 2: Autenticacion y seguridad basica
 
-**Estado:** Pendiente
+**Estado:** Completada
 
 ## Objetivo
 
@@ -8,12 +8,12 @@ Implementar login con JWT y middleware de proteccion para rutas privadas.
 
 ## Tareas
 
-- [ ] Crear endpoint `POST /auth/login`
-- [ ] Validar credenciales contra usuario en BD
-- [ ] Generar JWT con email y id del usuario
-- [ ] Crear middleware `authMiddleware` para verificar JWT
-- [ ] Proteger todos los endpoints internos (leads, activities)
-- [ ] Validar input de login con Zod
+- [x] Crear endpoint `POST /auth/login`
+- [x] Validar credenciales contra usuario en BD
+- [x] Generar JWT con email y id del usuario
+- [x] Crear middleware `authMiddleware` para verificar JWT
+- [x] Proteger todos los endpoints internos (leads, activities)
+- [x] Validar input de login con Zod
 
 ## Endpoints
 

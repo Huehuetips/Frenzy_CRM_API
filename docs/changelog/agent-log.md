@@ -4,6 +4,40 @@
 
 ### Tipo de cambio
 
+Implementacion Fase 2 - Autenticacion JWT
+
+### Archivos modificados
+
+- src/app.ts
+- src/config/swagger.ts
+- src/middlewares/auth.middleware.ts
+- src/middlewares/error.middleware.ts
+- src/middlewares/validate.middleware.ts
+- src/modules/auth/auth.controller.ts
+- src/modules/auth/auth.routes.ts
+- src/modules/auth/auth.schema.ts
+- src/modules/auth/auth.service.ts
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se implemento el login con JWT, validacion Zod para el payload, middleware de autenticacion Bearer, middleware global de errores y documentacion Swagger para el endpoint de login. La app ahora monta auth en `/api/auth`, Swagger en `/api/docs` y health en `/api/health`.
+
+### Motivo
+
+Cumplir la Fase 2 del proyecto: Autenticacion JWT.
+
+### Pendientes
+
+- Proteger endpoints privados cuando se implemente la Fase 3.
+
+---
+
+## 2026-06-24 — Codex
+
+### Tipo de cambio
+
 Infraestructura Docker
 
 ### Archivos modificados

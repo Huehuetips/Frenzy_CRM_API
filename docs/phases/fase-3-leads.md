@@ -8,6 +8,7 @@ Crear el CRUD completo de leads con filtros y cambio de estado.
 
 ## Tareas
 
+- [ ] Proteger todos los endpoints de leads con authMiddleware
 - [ ] Crear lead (`POST /leads`)
 - [ ] Listar leads con paginacion (`GET /leads`)
 - [ ] Obtener lead por ID (`GET /leads/:id`)

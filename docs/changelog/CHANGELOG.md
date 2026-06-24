@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.0] - 2026-06-24
+
+### Added
+
+- Autenticacion JWT con endpoint `POST /api/auth/login`.
+- Middleware generico de validacion Zod.
+- Middleware global de errores.
+- Middleware de autenticacion Bearer JWT.
+- Swagger UI disponible en `/api/docs`.
+
+### Changed
+
+- Health check movido a `/api/health`.
+
 ## [0.2.1] - 2026-06-24
 
 ### Changed

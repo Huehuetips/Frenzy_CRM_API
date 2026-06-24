@@ -1,4 +1,4 @@
-# Mini CRM API - Project Brief
+# Frenzy CRM API - Project Brief
 
 ## Objetivo
 

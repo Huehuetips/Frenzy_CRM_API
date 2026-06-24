@@ -1,5 +1,7 @@
+name: frenzy-crm
 services:
   api:
+    container_name: frenzy-crm-api
     build:
       context: .
       target: runtime
@@ -9,7 +11,7 @@ services:
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       PORT: ${PORT:-3000}
-      DATABASE_URL: ${DATABASE_URL:-postgresql://mini_crm:mini_crm_password@postgres:5432/mini_crm?schema=public}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://frenzy_crm:frenzy_crm_password@postgres:5432/frenzy_crm?schema=public}
       JWT_SECRET: ${JWT_SECRET:-change-me-in-local-env}
       JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
       WEBHOOK_SECRET: ${WEBHOOK_SECRET:-change-me-webhook-secret}

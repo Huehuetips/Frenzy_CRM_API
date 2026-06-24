@@ -17,6 +17,7 @@
       "Bash(git add *)",
       "Bash(docker compose *)",
       "Bash(codex *)",
+      "Bash(copilot *)",
       "Bash(find *)",
       "Bash(ls *)",
       "Bash(mkdir *)",

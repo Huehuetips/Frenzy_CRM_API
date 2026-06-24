@@ -6,5 +6,5 @@ const port = Number(process.env.PORT ?? 3000);
 const app = createApp();
 
 app.listen(port, () => {
-  console.log(`Mini CRM API listening on port ${port}`);
+  console.log(`Frenzy CRM API listening on port ${port}`);
 });

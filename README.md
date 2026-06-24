@@ -1,4 +1,4 @@
-# Mini CRM API
+# Frenzy CRM API
 
 API REST para administracion de leads, construida con Node.js, TypeScript, Express y PostgreSQL.
 
@@ -24,7 +24,7 @@ API REST para administracion de leads, construida con Node.js, TypeScript, Expre
 
 ```bash
 git clone repo-url
-cd mini-crm-api
+cd frenzy-crm-api
 cp .env.example .env
 docker compose up --build
 ```
@@ -104,6 +104,16 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 
 - **Email:** `admin@example.com`
 - **Password:** admin12345
+
+### Token expirado para pruebas
+
+Este token ya esta expirado y puede usarse para verificar que la API rechaza tokens invalidos:
+
+```bash
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJkZW1vIiwiZW1haWxVc2VyIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJpYXQiOjE3ODIzMzgwMTEsImV4cCI6MTc4MjMzODAxMn0.urpS0GPGLqndhEikA8gkt7OPg5eKmDgErnLFWwrA13E
+```
+
+> Tambien se genera uno nuevo cada vez que se ejecuta el seed. Puedes verlo con: `docker compose logs api`
 
 ## Estructura del proyecto
 

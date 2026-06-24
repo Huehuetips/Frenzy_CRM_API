@@ -9,7 +9,7 @@ Registro de decisiones tecnicas del proyecto. Cada decision incluye contexto, op
 **Fecha:** 2026-06-23
 **Estado:** Aprobada
 
-**Contexto:** Seleccionar el stack para construir la API REST del Mini CRM.
+**Contexto:** Seleccionar el stack para construir la API REST del Frenzy CRM.
 
 **Opciones:**
 

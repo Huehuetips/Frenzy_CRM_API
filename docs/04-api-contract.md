@@ -8,7 +8,7 @@ http://localhost:3000
 
 ## Autenticacion
 
-Todos los endpoints (excepto `/auth/login`, `/health` y `/webhooks/*`) requieren header:
+Todos los endpoints (excepto `/api/auth/login`, `/api/health` y `/webhooks/*`) requieren header:
 
 ```bash
 Authorization: Bearer <JWT_TOKEN>
@@ -22,13 +22,13 @@ Authorization: Bearer <JWT_TOKEN>
 
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
-| GET | `/health` | Verificar estado de la API |
+| GET | `/api/health` | Verificar estado de la API |
 
 ### Auth
 
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
-| POST | `/auth/login` | Login con email y password, retorna JWT |
+| POST | `/api/auth/login` | Login con email y password, retorna JWT |
 
 **Request body:**
 
@@ -47,6 +47,30 @@ Authorization: Bearer <JWT_TOKEN>
   "data": {
     "token": "eyJhbGciOiJIUzI1NiIs..."
   }
+}
+```
+
+**Response 400:**
+
+```json
+{
+  "success": false,
+  "message": "Validation error",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email"
+    }
+  ]
+}
+```
+
+**Response 401:**
+
+```json
+{
+  "success": false,
+  "message": "Credenciales invalidas"
 }
 ```
 
