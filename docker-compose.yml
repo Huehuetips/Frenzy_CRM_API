@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      context: .
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://mini_crm:mini_crm_password@postgres:5432/mini_crm?schema=public}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-local-env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-change-me-webhook-secret}
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npm run prisma:deploy && node dist/src/server.js"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mini_crm}
+      POSTGRES_USER: ${POSTGRES_USER:-mini_crm}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mini_crm_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mini_crm} -d ${POSTGRES_DB:-mini_crm}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

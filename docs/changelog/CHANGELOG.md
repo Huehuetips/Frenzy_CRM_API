@@ -1,0 +1,34 @@
+# Changelog
+
+## [0.2.0] - 2026-06-24
+
+### Added
+
+- Documentacion completa del alcance (01-scope.md)
+- Roadmap con tabla de fases (03-roadmap.md)
+- Contrato de API con todos los endpoints (04-api-contract.md)
+- Modelo de base de datos documentado (05-database-model.md)
+- Estrategia de testing (07-testing-strategy.md)
+- Decision log con 5 decisiones iniciales (09-decision-log.md)
+- 6 archivos de fases individuales en docs/phases/
+- README.md completo con instalacion, endpoints y estructura
+- Obsidian architecture-map y agent-dashboard
+
+### Fixed
+
+- .env.example: WEBHOOK_API_KEY renombrado a WEBHOOK_SECRET (coherencia con env.ts)
+- .env.example: agregados NODE_ENV y JWT_EXPIRES_IN faltantes
+
+### Removed
+
+- 9 archivos duplicados de docs (UPPERCASE) que duplicaban los numerados (00-09)
+
+## [0.1.0] - 2026-06-23
+
+### Added
+
+- Setup inicial del proyecto
+- Dockerfile
+- docker-compose con PostgreSQL
+- Prisma configurado
+- Estructura modular base

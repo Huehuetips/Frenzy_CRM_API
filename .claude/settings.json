@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npm test *)",
+      "Bash(npm install *)",
+      "Bash(npx prisma *)",
+      "Bash(npx jest *)",
+      "Bash(npx tsx *)",
+      "Bash(npx tsc *)",
+      "Bash(npx eslint *)",
+      "Bash(npx prettier *)",
+      "Bash(git status *)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(git branch *)",
+      "Bash(git add *)",
+      "Bash(docker compose *)",
+      "Bash(find *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Read",
+      "Edit",
+      "Write"
+    ],
+    "deny": [
+      "Bash(rm -rf /)",
+      "Bash(git push --force *)"
+    ]
+  },
+  "language": "spanish"
+}
