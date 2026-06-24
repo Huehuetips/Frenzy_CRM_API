@@ -2,7 +2,7 @@
 
 ## Base URL
 
-```
+```bash
 http://localhost:3000
 ```
 
@@ -10,7 +10,7 @@ http://localhost:3000
 
 Todos los endpoints (excepto `/auth/login`, `/health` y `/webhooks/*`) requieren header:
 
-```
+```bash
 Authorization: Bearer <JWT_TOKEN>
 ```
 
@@ -21,16 +21,17 @@ Authorization: Bearer <JWT_TOKEN>
 ### Health
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | GET | `/health` | Verificar estado de la API |
 
 ### Auth
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/auth/login` | Login con email y password, retorna JWT |
 
 **Request body:**
+
 ```json
 {
   "email": "admin@example.com",
@@ -39,6 +40,7 @@ Authorization: Bearer <JWT_TOKEN>
 ```
 
 **Response 200:**
+
 ```json
 {
   "success": true,
@@ -51,7 +53,7 @@ Authorization: Bearer <JWT_TOKEN>
 ### Leads
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/leads` | Crear lead |
 | GET | `/leads` | Listar leads (con filtros) |
 | GET | `/leads/:id` | Obtener lead por ID |
@@ -62,7 +64,7 @@ Authorization: Bearer <JWT_TOKEN>
 **Filtros disponibles (query params en GET /leads):**
 
 | Param | Tipo | Descripcion |
-|-------|------|-------------|
+| ----- | ---- | ----------- |
 | `email` | string | Filtrar por email (parcial) |
 | `status` | string | Filtrar por estado |
 | `source` | string | Filtrar por fuente |
@@ -70,6 +72,7 @@ Authorization: Bearer <JWT_TOKEN>
 | `to` | string (ISO date) | Fecha fin (createdAt) |
 
 **Request body (POST /leads):**
+
 ```json
 {
   "name": "Juan Perez",
@@ -80,6 +83,7 @@ Authorization: Bearer <JWT_TOKEN>
 ```
 
 **Request body (PATCH /leads/:id/status):**
+
 ```json
 {
   "status": "contactado"
@@ -91,11 +95,12 @@ Authorization: Bearer <JWT_TOKEN>
 ### Actividades
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/leads/:id/activities` | Agregar nota/actividad |
 | GET | `/leads/:id/activities` | Listar actividades del lead |
 
 **Request body (POST):**
+
 ```json
 {
   "type": "note",
@@ -106,15 +111,17 @@ Authorization: Bearer <JWT_TOKEN>
 ### Webhooks
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/webhooks/leads` | Crear lead desde fuente externa |
 
 **Header requerido:**
-```
+
+```text
 x-api-key: <WEBHOOK_SECRET>
 ```
 
 **Request body:**
+
 ```json
 {
   "name": "Lead Externo",
@@ -129,6 +136,7 @@ x-api-key: <WEBHOOK_SECRET>
 ## Formato de respuestas
 
 ### Exito
+
 ```json
 {
   "success": true,
@@ -137,6 +145,7 @@ x-api-key: <WEBHOOK_SECRET>
 ```
 
 ### Error
+
 ```json
 {
   "success": false,
@@ -153,7 +162,7 @@ x-api-key: <WEBHOOK_SECRET>
 ### Codigos HTTP
 
 | Codigo | Uso |
-|--------|-----|
+| ------ | --- |
 | 200 | Operacion exitosa |
 | 201 | Recurso creado |
 | 400 | Validacion fallida |

@@ -12,6 +12,7 @@ Registro de decisiones tecnicas del proyecto. Cada decision incluye contexto, op
 **Contexto:** Seleccionar el stack para construir la API REST del Mini CRM.
 
 **Opciones:**
+
 1. Node.js + Express + TypeScript + Prisma + PostgreSQL
 2. NestJS + TypeORM + PostgreSQL
 3. Fastify + Drizzle + PostgreSQL
@@ -43,6 +44,7 @@ Registro de decisiones tecnicas del proyecto. Cada decision incluye contexto, op
 **Contexto:** Proteger el endpoint de webhook para recibir leads externos.
 
 **Opciones:**
+
 1. API Key en header (`x-api-key`)
 2. OAuth 2.0
 3. HMAC signature
@@ -61,6 +63,7 @@ Registro de decisiones tecnicas del proyecto. Cada decision incluye contexto, op
 **Contexto:** Elegir libreria de validacion para inputs de la API.
 
 **Opciones:**
+
 1. Zod
 2. Joi
 3. class-validator

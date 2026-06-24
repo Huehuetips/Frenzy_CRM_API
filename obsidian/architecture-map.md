@@ -2,7 +2,7 @@
 
 ## Flujo de request
 
-```
+```text
 Cliente HTTP
     │
     ▼
@@ -43,7 +43,7 @@ PostgreSQL
 ## Modulos
 
 | Modulo | Responsabilidad | Auth |
-|--------|----------------|------|
+| ------ | --------------- | ---- |
 | auth | Login, generacion de JWT | Publica |
 | leads | CRUD, filtros, cambio de estado | JWT |
 | activities | Notas y registro de actividades | JWT |
@@ -51,7 +51,7 @@ PostgreSQL
 
 ## Estructura por modulo
 
-```
+```text
 src/modules/<nombre>/
   <nombre>.controller.ts  — Handlers HTTP
   <nombre>.service.ts     — Logica de negocio
@@ -62,7 +62,7 @@ src/modules/<nombre>/
 ## Middlewares
 
 | Middleware | Ubicacion | Funcion |
-|------------|-----------|---------|
+| ---------- | --------- | ------- |
 | auth | src/middlewares/auth.middleware.ts | Verificar JWT |
 | webhook | src/middlewares/webhook.middleware.ts | Verificar API Key |
 | validate | src/middlewares/validate.middleware.ts | Validar body con Zod |
@@ -71,7 +71,7 @@ src/modules/<nombre>/
 ## Shared
 
 | Archivo | Funcion |
-|---------|---------|
+| ------- | ------- |
 | src/shared/prisma.ts | Instancia de PrismaClient |
 | src/shared/response.ts | Helpers de formato de respuesta |
 | src/config/env.ts | Validacion de env vars con Zod |

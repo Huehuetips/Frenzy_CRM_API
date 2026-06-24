@@ -3,7 +3,7 @@
 ## Estado actual del proyecto
 
 | Fase | Estado | Progreso |
-|------|--------|----------|
+| ---- | ------ | -------- |
 | 1. Setup y base | Completada | 100% |
 | 2. Autenticacion | Pendiente | 0% |
 | 3. CRUD Leads | Pendiente | 0% |
@@ -22,14 +22,17 @@
 ## Registro de agentes
 
 ### Claude Code
+
 - **Rol:** Arquitectura, refactor, revision de coherencia
 - **Ultimo cambio:** 2026-06-24 — Organizacion de documentacion, correccion de inconsistencias
 
 ### Codex
+
 - **Rol:** Implementacion de endpoints, Prisma, tests
 - **Ultimo cambio:** 2026-06-23 — CRUD basico de leads
 
 ### GitHub Copilot
+
 - **Rol:** Autocompletado, DTOs, schemas repetitivos
 - **Ultimo cambio:** —
 

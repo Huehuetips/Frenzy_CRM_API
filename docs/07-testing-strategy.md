@@ -8,7 +8,7 @@
 
 ## Estructura
 
-```
+```text
 tests/
   auth.test.ts       → Login y JWT
   leads.test.ts      → CRUD y filtros de leads
@@ -18,6 +18,7 @@ tests/
 ## Casos de prueba planificados
 
 ### Auth (`auth.test.ts`)
+
 - Login exitoso con credenciales validas → retorna JWT
 - Login fallido con password incorrecto → 401
 - Login fallido con email inexistente → 401
@@ -25,6 +26,7 @@ tests/
 - Acceso a ruta protegida con token invalido → 401
 
 ### Leads (`leads.test.ts`)
+
 - Crear lead con datos validos → 201
 - Crear lead con datos incompletos → 400
 - Listar leads → 200 + array
@@ -40,6 +42,7 @@ tests/
 - Filtrar leads por rango de fechas → resultados filtrados
 
 ### Webhooks (`webhooks.test.ts`)
+
 - Crear lead con API key valida → 201
 - Crear lead sin API key → 401
 - Crear lead con API key invalida → 401

@@ -2,10 +2,11 @@
 
 ## Resumen de fases
 
-El proyecto se divide en 6 fases secuenciales. Cada fase tiene entregables concretos y está documentada individualmente en `docs/phases/`.
+El proyecto se divide en 6 fases secuenciales. Cada fase tiene entregables
+concretos y está documentada individualmente en `docs/phases/`.
 
 | Fase | Nombre | Estado | Detalle |
-|------|--------|--------|---------|
+| ---- | ------ | ------ | ------- |
 | 1 | Setup y base del proyecto | Completada | [fase-1-setup.md](./phases/fase-1-setup.md) |
 | 2 | Autenticacion JWT | Pendiente | [fase-2-auth.md](./phases/fase-2-auth.md) |
 | 3 | CRUD de Leads | Pendiente | [fase-3-leads.md](./phases/fase-3-leads.md) |
@@ -16,12 +17,14 @@ El proyecto se divide en 6 fases secuenciales. Cada fase tiene entregables concr
 ## Priorizacion (72 horas)
 
 ### Dia 1
+
 - Setup del proyecto
 - Prisma y base de datos
 - Auth JWT
 - CRUD basico de leads
 
 ### Dia 2
+
 - Filtros
 - Cambio de estado
 - Actividades/notas
@@ -29,6 +32,7 @@ El proyecto se divide en 6 fases secuenciales. Cada fase tiene entregables concr
 - Validaciones y errores
 
 ### Dia 3
+
 - Swagger / documentacion de endpoints
 - Tests basicos
 - Revision final
