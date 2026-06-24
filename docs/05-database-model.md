@@ -3,28 +3,28 @@
 ## Diagrama de entidades
 
 ```text
-┌──────────────┐
-│     User     │
-├──────────────┤
-│ id (UUID PK) │
-│ email (UQ)   │
-│ passwordHash │
-│ createdAt    │
-│ updatedAt    │
-└──────────────┘
+┌──────────────────┐
+│      Users       │
+├──────────────────┤
+│ idUser (UUID PK) │
+│ emailUser (UQ)   │
+│ passwordHashUser │
+│ createdAtUser    │
+│ updatedAtUser    │
+└──────────────────┘
 
-┌─────────────────┐       ┌──────────────────────┐
-│      Lead       │       │    LeadActivity       │
-├─────────────────┤       ├──────────────────────┤
-│ id (UUID PK)    │──1:N──│ id (UUID PK)         │
-│ name            │       │ leadId (FK → Lead.id) │
-│ email           │       │ type (enum)           │
-│ phone?          │       │ note                  │
-│ source?         │       │ createdAt             │
-│ status (enum)   │       └──────────────────────┘
-│ createdAt       │
-│ updatedAt       │
-└─────────────────┘
+┌───────────────────┐       ┌──────────────────────────┐
+│       Leads       │       │      LeadActivities      │
+├───────────────────┤       ├──────────────────────────┤
+│ idLead (UUID PK)  │──1:N──│ idLeadActivity (UUID PK) │
+│ nameLead          │       │ leadId (FK → Lead.id)    │
+│ emailLead         │       │ typeLeadActivity (enum)  │
+│ phoneLead?        │       │ noteLeadActivity         │
+│ sourceLead?       │       │ createdAtLeadActivity    │
+│ statusLead (enum) │       └──────────────────────────┘
+│ createdAtLead     │
+│ updatedAtLead     │
+└───────────────────┘
 ```
 
 ## Enums
@@ -51,17 +51,17 @@
 
 | Tabla | Campo(s) | Justificacion |
 | ------- | ---------- | --------------- |
-| Lead | `email` | Filtrado por email |
-| Lead | `status` | Filtrado por estado |
-| Lead | `source` | Filtrado por fuente |
-| Lead | `createdAt` | Filtrado por rango de fechas |
-| LeadActivity | `leadId` | Join con Lead |
-| LeadActivity | `createdAt` | Ordenamiento cronologico |
+| Leads | `emailLead` | Filtrado por email |
+| Leads | `statusLead` | Filtrado por estado |
+| Leads | `sourceLead` | Filtrado por fuente |
+| Leads | `createdAtLead` | Filtrado por rango de fechas |
+| LeadActivities | `leadId` | Join con Lead |
+| LeadActivities | `createdAtLeadActivity` | Ordenamiento cronologico |
 
 ## Relaciones
 
 - **User**: Independiente. Se usa solo para autenticacion.
-- **Lead → LeadActivity**: Un lead tiene muchas actividades. Eliminacion en cascada (`onDelete: Cascade`).
+- **Leads → LeadActivities**: Un lead tiene muchas actividades. Eliminacion en cascada (`onDelete: Cascade`).
 
 ## Seed
 

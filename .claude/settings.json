@@ -16,6 +16,7 @@
       "Bash(git branch *)",
       "Bash(git add *)",
       "Bash(docker compose *)",
+      "Bash(codex *)",
       "Bash(find *)",
       "Bash(ls *)",
       "Bash(mkdir *)",

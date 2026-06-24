@@ -8,7 +8,7 @@ Definir estructura, entidades, base de datos y configuracion inicial.
 
 ## Tareas
 
-- [ ] Crear repositorio
+- [x] Crear repositorio
 - [ ] Inicializar proyecto Node + TypeScript
 - [ ] Configurar Express (app.ts + server.ts)
 - [ ] Configurar Prisma con PostgreSQL
