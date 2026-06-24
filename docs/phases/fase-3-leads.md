@@ -24,7 +24,7 @@ Crear el CRUD completo de leads con filtros y cambio de estado.
 ## Endpoints
 
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| -------- | ------ | ------------- |
 | POST | `/leads` | Crear lead |
 | GET | `/leads` | Listar leads con filtros |
 | GET | `/leads/:id` | Obtener lead por ID |
@@ -34,7 +34,7 @@ Crear el CRUD completo de leads con filtros y cambio de estado.
 
 ## Estructura de archivos esperada
 
-```
+```bash
 src/modules/leads/
   leads.controller.ts  — Handlers de cada endpoint
   leads.service.ts     — Logica de negocio y queries

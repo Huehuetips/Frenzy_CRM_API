@@ -9,16 +9,19 @@ Normalizar respuestas, centralizar manejo de errores y documentar endpoints.
 ## Tareas
 
 ### Validaciones
+
 - [ ] Validar todos los inputs con Zod (schemas por modulo)
 - [ ] Crear middleware de validacion reutilizable
 
 ### Manejo de errores
+
 - [ ] Crear middleware global de errores
 - [ ] Normalizar formato de respuestas de error
 - [ ] Normalizar formato de respuestas exitosas
 - [ ] Manejar errores de Prisma (not found, unique constraint, etc.)
 
 ### Documentacion
+
 - [ ] Configurar Swagger con swagger-jsdoc + swagger-ui-express
 - [ ] Documentar todos los endpoints con anotaciones JSDoc
 - [ ] Endpoint Swagger UI en `/api-docs`
@@ -26,6 +29,7 @@ Normalizar respuestas, centralizar manejo de errores y documentar endpoints.
 ## Formato estandar de respuestas
 
 ### Exito
+
 ```json
 {
   "success": true,
@@ -34,6 +38,7 @@ Normalizar respuestas, centralizar manejo de errores y documentar endpoints.
 ```
 
 ### Error
+
 ```json
 {
   "success": false,
@@ -49,7 +54,7 @@ Normalizar respuestas, centralizar manejo de errores y documentar endpoints.
 
 ## Estructura de archivos esperada
 
-```
+```bash
 src/middlewares/
   error.middleware.ts      — Manejo global de errores
   validate.middleware.ts   — Middleware de validacion Zod

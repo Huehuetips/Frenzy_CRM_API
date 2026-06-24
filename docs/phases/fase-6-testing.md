@@ -9,6 +9,7 @@ Probar el flujo completo, limpiar codigo y preparar el proyecto para entrega.
 ## Tareas
 
 ### Testing
+
 - [ ] Probar manualmente con Swagger / Postman
 - [ ] Implementar tests basicos:
   - [ ] Login exitoso y fallido
@@ -19,12 +20,14 @@ Probar el flujo completo, limpiar codigo y preparar el proyecto para entrega.
 - [ ] Verificar que todos los filtros funcionan
 
 ### Revision
+
 - [ ] Revisar naming y consistencia de codigo
 - [ ] Revisar separacion de responsabilidades
 - [ ] Verificar que no hay features fuera del alcance
 - [ ] Limpiar imports no usados y codigo muerto
 
 ### Entrega
+
 - [ ] README completo con instrucciones de instalacion y uso
 - [ ] `.env.example` actualizado
 - [ ] Verificar que migraciones corren limpiamente
