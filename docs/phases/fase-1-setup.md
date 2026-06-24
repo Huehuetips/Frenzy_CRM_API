@@ -11,8 +11,8 @@ Definir estructura, entidades, base de datos y configuracion inicial.
 - [x] Crear repositorio
 - [ ] Inicializar proyecto Node + TypeScript
 - [ ] Configurar Express (app.ts + server.ts)
-- [ ] Configurar Prisma con PostgreSQL
-- [ ] Crear archivo `.env.example`
+- [x] Configurar Prisma con PostgreSQL
+- [x] Crear archivo `.env.example`
 - [x] Definir modelos de base de datos (User, Lead, LeadActivity)
 - [ ] Configurar ESLint + Prettier
 - [ ] Configurar Jest
