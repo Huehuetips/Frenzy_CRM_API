@@ -2,11 +2,12 @@ services:
   api:
     build:
       context: .
+      target: dev
     env_file:
       - path: .env
         required: false
     environment:
-      NODE_ENV: ${NODE_ENV:-production}
+      NODE_ENV: ${NODE_ENV:-development}
       PORT: ${PORT:-3000}
       DATABASE_URL: ${DATABASE_URL:-postgresql://mini_crm:mini_crm_password@postgres:5432/mini_crm?schema=public}
       JWT_SECRET: ${JWT_SECRET:-change-me-in-local-env}
@@ -14,10 +15,13 @@ services:
       WEBHOOK_SECRET: ${WEBHOOK_SECRET:-change-me-webhook-secret}
     ports:
       - "${PORT:-3000}:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
     depends_on:
       postgres:
         condition: service_healthy
-    command: sh -c "npm run prisma:deploy && node dist/src/server.js"
+    command: sh docker/entrypoint.dev.sh
 
   postgres:
     image: postgres:16-alpine
@@ -26,7 +30,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-mini_crm}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mini_crm_password}
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5433}:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

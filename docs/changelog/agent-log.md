@@ -1,5 +1,38 @@
 # Agent Log
 
+## 2026-06-24 — Codex
+
+### Tipo de cambio
+
+Infraestructura Docker
+
+### Archivos modificados
+
+- Dockerfile
+- docker-compose.yml
+- docker-compose.prod.yml
+- tsconfig.json
+- .dockerignore
+- .gitignore
+- docs/08-deployment-docker.md
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se configuro Docker como flujo principal de desarrollo. El compose por defecto usa el stage `dev`, monta el codigo fuente, conserva `node_modules` dentro del contenedor y ejecuta migraciones, seed y hot-reload. Se agrego override de produccion con build multi-stage y arranque desde `dist/server.js`.
+
+### Motivo
+
+Permitir que el proyecto arranque completo con `docker compose up` sin instalar dependencias localmente.
+
+### Pendientes
+
+- Crear la rama `feature/docker-dev-setup` fuera del sandbox actual, porque `.git` esta montado como solo lectura en este entorno.
+- Validar Docker en un entorno con daemon disponible.
+
+---
+
 ## 2026-06-24 — Claude Code
 
 ### Tipo de cambio

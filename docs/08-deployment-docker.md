@@ -5,55 +5,24 @@
 - api
 - postgres
 
-## Comandos
+## Desarrollo
+
+```bash
+docker compose up
+```
+
+El compose de desarrollo construye el stage `dev`, monta el codigo fuente y ejecuta migraciones, seed y hot-reload con `tsx watch`.
+
+Para reconstruir la imagen:
 
 ```bash
 docker compose up --build
 ```
 
-## Migraciones
+## Produccion
 
 ```bash
-docker compose exec api npx prisma migrate dev
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```
 
-## Seed
-
-```bash
-docker compose exec api npm run seed
-```
-
-## Docker base recomendado
-
-### `docker-compose.yml`
-
-```yml
-services:
-  api:
-    build: .
-    container_name: mini-crm-api
-    ports:
-      - "3000:3000"
-    env_file:
-      - .env
-    depends_on:
-      - db
-    volumes:
-      - .:/app
-      - /app/node_modules
-
-  db:
-    image: postgres:16
-    container_name: mini-crm-db
-    restart: always
-    environment:
-      POSTGRES_USER: crm_user
-      POSTGRES_PASSWORD: crm_password
-      POSTGRES_DB: mini_crm
-    ports:
-      - "5432:5432"
-    volumes:
-      - crm_data:/var/lib/postgresql/data
-
-volumes:
-  crm_data:
+El override de produccion usa el build multi-stage completo, no monta codigo fuente y arranca con `prisma migrate deploy`, seed y `node dist/server.js`.

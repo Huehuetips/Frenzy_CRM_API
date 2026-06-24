@@ -22,38 +22,42 @@ enum LeadActivityType {
 }
 
 model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  passwordHash String
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  idUser           String   @id @default(uuid())
+  emailUser        String   @unique
+  passwordHashUser String
+  createdAtUser    DateTime @default(now())
+  updatedAtUser    DateTime @updatedAt
+
+  @@map("Users")
 }
 
 model Lead {
-  id         String         @id @default(uuid())
-  name       String
-  email      String
-  phone      String?
-  source     String?
-  status     LeadStatus     @default(nuevo)
-  activities LeadActivity[]
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
+  idLead        String         @id @default(uuid())
+  nameLead      String
+  emailLead     String
+  phoneLead     String?
+  sourceLead    String?
+  statusLead    LeadStatus     @default(nuevo)
+  activities    LeadActivity[]
+  createdAtLead DateTime       @default(now())
+  updatedAtLead DateTime       @updatedAt
 
-  @@index([email])
-  @@index([status])
-  @@index([source])
-  @@index([createdAt])
+  @@index([emailLead])
+  @@index([statusLead])
+  @@index([sourceLead])
+  @@index([createdAtLead])
+  @@map("Leads")
 }
 
 model LeadActivity {
-  id        String           @id @default(uuid())
-  leadId    String
-  lead      Lead             @relation(fields: [leadId], references: [id], onDelete: Cascade)
-  type      LeadActivityType @default(note)
-  note      String
-  createdAt DateTime         @default(now())
+  idLeadActivity        String           @id @default(uuid())
+  leadId                String
+  lead                  Lead             @relation(fields: [leadId], references: [idLead], onDelete: Cascade)
+  typeLeadActivity      LeadActivityType @default(note)
+  noteLeadActivity      String
+  createdAtLeadActivity DateTime         @default(now())
 
   @@index([leadId])
-  @@index([createdAt])
+  @@index([createdAtLeadActivity])
+  @@map("LeadActivities")
 }

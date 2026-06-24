@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      target: runtime
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      NODE_ENV: ${NODE_ENV:-production}
+      PORT: ${PORT:-3000}
+      DATABASE_URL: ${DATABASE_URL:-postgresql://mini_crm:mini_crm_password@postgres:5432/mini_crm?schema=public}
+      JWT_SECRET: ${JWT_SECRET:-change-me-in-local-env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-1d}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-change-me-webhook-secret}
+    ports:
+      - "${PORT:-3000}:3000"
+    volumes: !reset []
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: sh -c "npx prisma migrate deploy && npx tsx prisma/seed.ts && node dist/server.js"

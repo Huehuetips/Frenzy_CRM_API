@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.2.1] - 2026-06-24
+
+### Changed
+
+- Docker de desarrollo por defecto con hot-reload, migraciones y seed al iniciar.
+- Build Docker reproducible usando `npm ci`.
+- Salida TypeScript ajustada a `dist/server.js`.
+
+### Added
+
+- Override `docker-compose.prod.yml` para ejecucion de produccion.
+- `.dockerignore` para excluir dependencias, build, Git, env y Markdown.
+
 ## [0.2.0] - 2026-06-24
 
 ### Added

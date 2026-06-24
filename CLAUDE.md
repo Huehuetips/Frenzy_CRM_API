@@ -83,3 +83,4 @@ Claude NO debe:
 * Reescribir módulos completos sin autorización.
 * Modificar archivos sobre los cuales otro agente esté trabajando.
 * Sustituir la arquitectura existente sin aprobación humana.
+* Realizar cambios directos en el código, salvo autorización explícita del humano. Por defecto, todo cambio debe ser delegado a Codex.

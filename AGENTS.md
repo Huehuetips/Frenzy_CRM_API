@@ -69,3 +69,4 @@ Codex NO debe:
 * Introducir nuevas dependencias sin justificarlo.
 * Introducir patrones complejos innecesarios.
 * Modificar archivos sobre los cuales otro agente esté trabajando.
+* Analizar, revisar o cuestionar implementaciones. Codex solo implementa lo que se le indica.
