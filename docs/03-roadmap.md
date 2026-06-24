@@ -9,7 +9,7 @@ concretos y está documentada individualmente en `docs/phases/`.
 | ---- | ------ | ------ | ------- |
 | 1 | Setup y base del proyecto | Completada | [fase-1-setup.md](./phases/fase-1-setup.md) |
 | 2 | Autenticacion JWT | Completada | [fase-2-auth.md](./phases/fase-2-auth.md) |
-| 3 | CRUD de Leads | Pendiente | [fase-3-leads.md](./phases/fase-3-leads.md) |
+| 3 | CRUD de Leads | Completada | [fase-3-leads.md](./phases/fase-3-leads.md) |
 | 4 | Notas, actividades y webhook | Pendiente | [fase-4-notes-webhook.md](./phases/fase-4-notes-webhook.md) |
 | 5 | Validaciones, errores y documentacion | Pendiente | [fase-5-validations-docs.md](./phases/fase-5-validations-docs.md) |
 | 6 | Testing y entrega | Pendiente | [fase-6-testing.md](./phases/fase-6-testing.md) |

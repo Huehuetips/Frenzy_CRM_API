@@ -4,11 +4,13 @@
 
 ### Added
 
-- CRUD de Leads protegido con JWT en `/api/leads`.
-- Validaciones Zod para crear, actualizar, filtrar, buscar por id y cambiar estado de leads.
-- Filtros de leads por email, estado, origen y rango de fechas con paginacion.
-- Middleware `validateQuery` para validar query params.
-- Documentacion Swagger para endpoints de Leads.
+- CRUD completo de leads (crear, listar, obtener, editar, eliminar).
+- Cambio de estado de leads como endpoint separado (`PATCH /api/leads/:id/status`).
+- Filtros por email, estado, fuente y rango de fechas.
+- Paginacion con `page` (default 1) y `limit` (default 20, max 100).
+- Validacion de UUID en parametros de ruta.
+- Middleware `validateQuery` para query params.
+- Swagger JSDoc para todos los endpoints de leads.
 
 ## [0.3.0] - 2026-06-24
 

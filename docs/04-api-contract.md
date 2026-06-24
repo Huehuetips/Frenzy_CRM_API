@@ -78,14 +78,14 @@ Authorization: Bearer <JWT_TOKEN>
 
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
-| POST | `/leads` | Crear lead |
-| GET | `/leads` | Listar leads (con filtros) |
-| GET | `/leads/:id` | Obtener lead por ID |
-| PATCH | `/leads/:id` | Editar lead |
-| DELETE | `/leads/:id` | Eliminar lead |
-| PATCH | `/leads/:id/status` | Cambiar estado del lead |
+| POST | `/api/leads` | Crear lead |
+| GET | `/api/leads` | Listar leads (con filtros) |
+| GET | `/api/leads/:id` | Obtener lead por ID |
+| PATCH | `/api/leads/:id` | Editar lead |
+| DELETE | `/api/leads/:id` | Eliminar lead |
+| PATCH | `/api/leads/:id/status` | Cambiar estado del lead |
 
-**Filtros disponibles (query params en GET /leads):**
+**Filtros disponibles (query params en GET /api/leads):**
 
 | Param | Tipo | Descripcion |
 | ----- | ---- | ----------- |
@@ -94,8 +94,25 @@ Authorization: Bearer <JWT_TOKEN>
 | `source` | string | Filtrar por fuente |
 | `from` | string (ISO date) | Fecha inicio (createdAt) |
 | `to` | string (ISO date) | Fecha fin (createdAt) |
+| `page` | number | Pagina (default: 1) |
+| `limit` | number | Resultados por pagina (default: 20, max: 100) |
 
-**Request body (POST /leads):**
+**Response GET /api/leads:**
+
+```json
+{
+  "success": true,
+  "data": [...],
+  "meta": {
+    "total": 100,
+    "page": 1,
+    "limit": 20,
+    "totalPages": 5
+  }
+}
+```
+
+**Request body (POST /api/leads):**
 
 ```json
 {
@@ -106,7 +123,7 @@ Authorization: Bearer <JWT_TOKEN>
 }
 ```
 
-**Request body (PATCH /leads/:id/status):**
+**Request body (PATCH /api/leads/:id/status):**
 
 ```json
 {
