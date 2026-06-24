@@ -9,16 +9,16 @@ Definir estructura, entidades, base de datos y configuracion inicial.
 ## Tareas
 
 - [x] Crear repositorio
-- [ ] Inicializar proyecto Node + TypeScript
-- [ ] Configurar Express (app.ts + server.ts)
+- [x] Inicializar proyecto Node + TypeScript
+- [x] Configurar Express (app.ts + server.ts)
 - [x] Configurar Prisma con PostgreSQL
 - [x] Crear archivo `.env.example`
 - [x] Definir modelos de base de datos (User, Lead, LeadActivity)
-- [ ] Configurar ESLint + Prettier
-- [ ] Configurar Jest
+- [x] Configurar ESLint + Prettier
+- [x] Configurar Jest
 - [x] Crear Dockerfile multi-stage
 - [x] Crear docker-compose.yml
-- [ ] Crear seed de usuario demo
+- [x] Crear seed de usuario demo
 - [x] Crear estructura modular de carpetas
 
 ## Entregables

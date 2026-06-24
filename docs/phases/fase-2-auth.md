@@ -18,12 +18,12 @@ Implementar login con JWT y middleware de proteccion para rutas privadas.
 ## Endpoints
 
 | Metodo | Ruta | Autenticacion |
-|--------|------|---------------|
+| -------- | ------ | --------------- |
 | POST | `/auth/login` | Publica |
 
 ## Estructura de archivos esperada
 
-```
+```text
 src/modules/auth/
   auth.controller.ts   — Handler del endpoint de login
   auth.service.ts      — Logica de autenticacion
