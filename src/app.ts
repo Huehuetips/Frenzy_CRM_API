@@ -7,6 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { authRoutes } from './modules/auth/auth.routes';
+import { leadsRoutes } from './modules/leads/leads.routes';
 
 export const createApp = () => {
   const app = express();
@@ -29,6 +30,7 @@ export const createApp = () => {
   });
 
   app.use('/api/auth', authRoutes);
+  app.use('/api/leads', leadsRoutes);
 
   app.use(errorMiddleware);
 

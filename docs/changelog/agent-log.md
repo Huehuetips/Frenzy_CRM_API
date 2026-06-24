@@ -4,6 +4,37 @@
 
 ### Tipo de cambio
 
+Implementacion Fase 3 - CRUD de Leads
+
+### Archivos modificados
+
+- src/app.ts
+- src/middlewares/validate.middleware.ts
+- src/modules/leads/leads.controller.ts
+- src/modules/leads/leads.routes.ts
+- src/modules/leads/leads.schema.ts
+- src/modules/leads/leads.service.ts
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se implemento el CRUD de leads bajo `/api/leads` con autenticacion obligatoria, validaciones Zod, filtros por email, estado, origen y fechas, paginacion, cambio de estado y documentacion Swagger por endpoint.
+
+### Motivo
+
+Cumplir la Fase 3 del proyecto: CRUD de Leads.
+
+### Pendientes
+
+- Ejecutar la suite de pruebas automatizadas en un entorno con base de datos disponible.
+
+---
+
+## 2026-06-24 — Codex
+
+### Tipo de cambio
+
 Implementacion Fase 2 - Autenticacion JWT
 
 ### Archivos modificados

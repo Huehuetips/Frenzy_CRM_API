@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.4.0] - 2026-06-24
+
+### Added
+
+- CRUD de Leads protegido con JWT en `/api/leads`.
+- Validaciones Zod para crear, actualizar, filtrar, buscar por id y cambiar estado de leads.
+- Filtros de leads por email, estado, origen y rango de fechas con paginacion.
+- Middleware `validateQuery` para validar query params.
+- Documentacion Swagger para endpoints de Leads.
+
 ## [0.3.0] - 2026-06-24
 
 ### Added
