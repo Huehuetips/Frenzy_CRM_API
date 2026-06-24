@@ -4,7 +4,7 @@
 
 ```text
 ┌──────────────────┐
-│      Users       │
+│      users       │
 ├──────────────────┤
 │ idUser (UUID PK) │
 │ emailUser (UQ)   │
@@ -14,7 +14,7 @@
 └──────────────────┘
 
 ┌───────────────────┐       ┌──────────────────────────┐
-│       Leads       │       │      LeadActivities      │
+│       leads       │       │     lead_activities      │
 ├───────────────────┤       ├──────────────────────────┤
 │ idLead (UUID PK)  │──1:N──│ idLeadActivity (UUID PK) │
 │ nameLead          │       │ leadId (FK → Lead.id)    │
