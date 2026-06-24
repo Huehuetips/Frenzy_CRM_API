@@ -17,54 +17,30 @@ API REST para administracion de leads, construida con Node.js, TypeScript, Expre
 
 ## Requisitos previos
 
-- Node.js >= 22
-- PostgreSQL 16 (o Docker)
-- npm
+- Docker
+- Docker Compose
 
 ## Instalacion
 
 ```bash
-# Clonar el repositorio
-git clone <repo-url>
+git clone repo-url
 cd mini-crm-api
-
-# Instalar dependencias
-npm install
-
-# Copiar variables de entorno
 cp .env.example .env
-# Editar .env con tus valores
-
-# Generar cliente Prisma
-npm run prisma:generate
-
-# Ejecutar migraciones
-npm run prisma:migrate
-
-# Seed de usuario demo
-npm run prisma:seed
-
-# Iniciar en desarrollo
-npm run dev
+docker compose up --build
 ```
 
-## Con Docker
+Esto levanta PostgreSQL, ejecuta migraciones, crea el usuario demo y arranca la API con hot-reload. La API estara disponible en [[http://localhost:3000]]
+
+## Produccion
 
 ```bash
-# Levantar API + PostgreSQL
-docker compose up --build
-
-# Ejecutar migraciones (en otro terminal)
-docker compose exec api npx prisma migrate dev
-
-# Seed
-docker compose exec api npm run prisma:seed
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```
 
 ## Variables de entorno
 
 | Variable | Descripcion | Default |
-|----------|-------------|---------|
+| -------- | ----------- | ------- |
 | `NODE_ENV` | Entorno de ejecucion | `development` |
 | `PORT` | Puerto de la API | `3000` |
 | `DATABASE_URL` | URL de conexion a PostgreSQL | - |
@@ -75,7 +51,7 @@ docker compose exec api npm run prisma:seed
 ## Scripts
 
 | Comando | Descripcion |
-|---------|-------------|
+| ------- | ----------- |
 | `npm run dev` | Servidor de desarrollo con hot reload |
 | `npm run build` | Compilar TypeScript |
 | `npm start` | Iniciar en produccion |
@@ -89,13 +65,15 @@ docker compose exec api npm run prisma:seed
 ## Endpoints principales
 
 ### Auth
+
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/auth/login` | Login, retorna JWT |
 
 ### Leads
+
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/leads` | Crear lead |
 | GET | `/leads` | Listar leads (con filtros) |
 | GET | `/leads/:id` | Obtener lead |
@@ -104,29 +82,32 @@ docker compose exec api npm run prisma:seed
 | PATCH | `/leads/:id/status` | Cambiar estado |
 
 ### Actividades
+
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/leads/:id/activities` | Agregar actividad |
 | GET | `/leads/:id/activities` | Listar actividades |
 
 ### Webhook
+
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | POST | `/webhooks/leads` | Crear lead externo |
 
 ### Otros
+
 | Metodo | Ruta | Descripcion |
-|--------|------|-------------|
+| ------ | ---- | ----------- |
 | GET | `/health` | Health check |
 
 ## Usuario demo
 
-- **Email:** admin@example.com
+- **Email:** `admin@example.com`
 - **Password:** admin12345
 
 ## Estructura del proyecto
 
-```
+```text
 src/
   config/          — Configuracion (env vars)
   shared/          — Codigo compartido (prisma client)

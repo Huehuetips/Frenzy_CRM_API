@@ -70,3 +70,4 @@ Codex NO debe:
 * Introducir patrones complejos innecesarios.
 * Modificar archivos sobre los cuales otro agente esté trabajando.
 * Analizar, revisar o cuestionar implementaciones. Codex solo implementa lo que se le indica.
+* Crear ramas de Git o GitHub sin autorización explícita del humano.

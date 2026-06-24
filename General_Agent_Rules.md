@@ -118,6 +118,7 @@ Antes de modificar archivos:
 1. Identificar qué archivos serán modificados.
 2. Verificar que otro agente no esté trabajando sobre ellos.
 3. Si existe conflicto potencial, detenerse y solicitar validación humana.
+4. No crear ramas de Git o GitHub sin autorización explícita del responsable humano.
 
 ---
 

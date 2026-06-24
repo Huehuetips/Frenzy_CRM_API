@@ -84,3 +84,4 @@ Claude NO debe:
 * Modificar archivos sobre los cuales otro agente esté trabajando.
 * Sustituir la arquitectura existente sin aprobación humana.
 * Realizar cambios directos en el código, salvo autorización explícita del humano. Por defecto, todo cambio debe ser delegado a Codex.
+* Crear ramas de Git o GitHub sin autorización explícita del humano.
