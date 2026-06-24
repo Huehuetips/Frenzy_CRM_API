@@ -15,6 +15,7 @@
       "Bash(git diff *)",
       "Bash(git branch *)",
       "Bash(git add *)",
+      "Bash(git commit *)",
       "Bash(docker compose *)",
       "Bash(codex *)",
       "Bash(copilot *)",

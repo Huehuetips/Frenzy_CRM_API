@@ -45,8 +45,7 @@ src/modules/leads/
 
 ## Estados validos
 
-`nuevo` → `contactado` → `calificado` → `convertido`
-                                       → `perdido`
+`nuevo` → `contactado` → `calificado` → `convertido`/`perdido`
 
 ## Entregables
 
