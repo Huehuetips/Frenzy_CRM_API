@@ -5,7 +5,7 @@ echo "Generating Prisma client..."
 npx prisma generate
 
 echo "Applying migrations..."
-npx prisma migrate dev --name init
+npx prisma migrate deploy
 
 echo "Running seed..."
 npx tsx prisma/seed.ts
