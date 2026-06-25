@@ -1,5 +1,35 @@
 # Agent Log
 
+## 2026-06-25 — Claude Code + Codex + Copilot
+
+### Tipo de cambio
+
+Fase 5 - Validaciones, errores y documentacion
+
+### Archivos modificados
+
+- src/middlewares/error.middleware.ts
+- src/shared/errors.ts
+- README.md
+- docs/phases/fase-5-validations-docs.md
+- docs/03-roadmap.md
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se completo la Fase 5 del proyecto. El middleware global de errores fue actualizado para importar AppError desde shared/errors.ts, centralizando la definicion de errores personalizados. Se actualizo el README con la lista completa de endpoints bajo el prefijo /api, una seccion dedicada a tests, instrucciones de acceso a Swagger UI en /docs y la estructura actual del proyecto. Se marcaron como completadas todas las tareas de validacion, manejo de errores y documentacion de la fase.
+
+### Motivo
+
+Cumplir la Fase 5 del proyecto: normalizar respuestas, centralizar manejo de errores y documentar todos los endpoints con Swagger.
+
+### Pendientes
+
+- Fase 6: Testing y entrega
+
+---
+
 ## 2026-06-24 — Codex
 
 ### Tipo de cambio

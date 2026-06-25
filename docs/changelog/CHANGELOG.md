@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.5.0] - 2026-06-25
+
+### Changed
+
+- Error middleware importa AppError desde shared/errors.ts
+- README actualizado con endpoints /api, seccion de tests, Swagger y estructura
+- Fase 5 completada
+
 ## [0.4.0] - 2026-06-24
 
 ### Added

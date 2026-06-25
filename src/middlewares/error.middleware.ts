@@ -1,8 +1,5 @@
 import { ErrorRequestHandler } from 'express';
-
-type AppError = Error & {
-  statusCode?: number;
-};
+import { AppError } from '../shared/errors';
 
 export const errorMiddleware: ErrorRequestHandler = (err: AppError, _req, res, _next) => {
   const statusCode = err.statusCode ?? 500;
