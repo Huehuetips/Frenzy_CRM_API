@@ -40,7 +40,10 @@ export const findAll = async (filters: QueryLeadsInput) => {
   }
 
   if (source) {
-    where.sourceLead = source;
+    where.sourceLead = {
+      contains: source,
+      mode: 'insensitive'
+    };
   }
 
   if (from || to) {
