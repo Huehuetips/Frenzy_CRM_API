@@ -1,6 +1,6 @@
 # Fase 4: Notas, actividades y webhook
 
-**Estado:** Pendiente
+**Estado:** Completada
 
 ## Objetivo
 
@@ -10,17 +10,17 @@ Agregar historial de actividades por lead y endpoint webhook para recibir leads 
 
 ### Actividades
 
-- [ ] Agregar nota/actividad a un lead (`POST /leads/:id/activities`)
-- [ ] Listar actividades de un lead (`GET /leads/:id/activities`)
-- [ ] Registrar automaticamente actividad al cambiar estado de lead
+- [x] Agregar nota/actividad a un lead (`POST /api/leads/:id/activities`)
+- [x] Listar actividades de un lead (`GET /api/leads/:id/activities`)
+- [x] Registrar automaticamente actividad al cambiar estado de lead
 
 ### Webhook
 
-- [ ] Crear endpoint webhook publico (`POST /webhooks/leads`)
-- [ ] Validar API Key en header `x-api-key`
-- [ ] Validar payload del webhook con Zod
-- [ ] Crear lead desde formulario externo
-- [ ] Registrar actividad tipo `webhook` al crear lead
+- [x] Crear endpoint webhook publico (`POST /webhooks/leads`)
+- [x] Validar API Key en header `x-api-key`
+- [x] Validar payload del webhook con Zod
+- [x] Crear lead desde formulario externo
+- [x] Registrar actividad tipo `webhook` al crear lead
 
 ## Endpoints
 
