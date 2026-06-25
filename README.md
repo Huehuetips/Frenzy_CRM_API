@@ -209,7 +209,7 @@ La API Key va en el header `x-api-key` con el valor de `WEBHOOK_SECRET`.
 |---|---|---|---|
 | `email` | string | Búsqueda parcial por email | `?email=juan` |
 | `status` | string | Estado exacto | `?status=contactado` |
-| `source` | string | Fuente exacta | `?source=google` |
+| `source` | string | Búsqueda parcial (insensible a mayúsculas) | `?source=google` |
 | `from` | ISO 8601 | Fecha de creación desde | `?from=2026-01-01T00:00:00.000Z` |
 | `to` | ISO 8601 | Fecha de creación hasta | `?to=2026-12-31T23:59:59.999Z` |
 | `page` | number | Página (default: 1) | `?page=2` |
