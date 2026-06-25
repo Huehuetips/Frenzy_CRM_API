@@ -157,6 +157,46 @@ describe("Leads CRUD", () => {
       });
     });
 
+    it("Crear lead con emailLead vacio retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("empty-email", { emailLead: "" }));
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("Crear lead solo con campos obligatorios retorna 201 con campos opcionales null", async () => {
+      const leadData = {
+        nameLead: "Lead Test Required Only",
+        emailLead: `${testRunId}-required-only@example.com`,
+      };
+
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(leadData);
+
+      expect(response.status).toBe(201);
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          idLead: expect.any(String),
+          nameLead: leadData.nameLead,
+          emailLead: leadData.emailLead,
+          phoneLead: null,
+          sourceLead: null,
+          statusLead: LeadStatus.nuevo,
+          createdAtLead: expect.any(String),
+          updatedAtLead: expect.any(String),
+        },
+      });
+    });
+
     it("Crear lead sin token retorna 401", async () => {
       const response = await request(app)
         .post("/api/leads")
@@ -188,6 +228,26 @@ describe("Leads CRUD", () => {
             emailLead: `${testRunId}-gamma@example.com`,
             sourceLead: `${testRunId}-landing`,
             statusLead: LeadStatus.calificado,
+          }),
+          buildLead("before-range", {
+            emailLead: `${testRunId}-before-range@example.com`,
+            sourceLead: `${testRunId}-date-range`,
+            createdAtLead: new Date("2025-12-31T23:59:59.000Z"),
+          }),
+          buildLead("inside-range-a", {
+            emailLead: `${testRunId}-inside-range-a@example.com`,
+            sourceLead: `${testRunId}-date-range`,
+            createdAtLead: new Date("2026-01-10T12:00:00.000Z"),
+          }),
+          buildLead("inside-range-b", {
+            emailLead: `${testRunId}-inside-range-b@example.com`,
+            sourceLead: `${testRunId}-date-range`,
+            createdAtLead: new Date("2026-01-20T12:00:00.000Z"),
+          }),
+          buildLead("after-range", {
+            emailLead: `${testRunId}-after-range@example.com`,
+            sourceLead: `${testRunId}-date-range`,
+            createdAtLead: new Date("2026-02-01T00:00:00.000Z"),
           }),
         ],
       });
@@ -313,6 +373,98 @@ describe("Leads CRUD", () => {
       });
       expect(response.body.data.data).toMatchObject([expect.any(Object)]);
     });
+
+    it("Filtrar por rango de fechas retorna solo leads dentro de from y to", async () => {
+      const from = "2026-01-01T00:00:00.000Z";
+      const to = "2026-01-31T23:59:59.999Z";
+
+      const response = await request(app)
+        .get("/api/leads")
+        .query({
+          source: `${testRunId}-date-range`,
+          from,
+          to,
+        })
+        .set(authHeader());
+
+      expect(response.status).toBe(200);
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          data: expect.any(Array),
+          meta: {
+            total: 2,
+            page: 1,
+            limit: 20,
+            totalPages: 1,
+          },
+        },
+      });
+
+      const emails = response.body.data.data.map(
+        (lead: { emailLead: string }) => lead.emailLead
+      );
+
+      expect(emails).toEqual(
+        expect.arrayContaining([
+          `${testRunId}-inside-range-a@example.com`,
+          `${testRunId}-inside-range-b@example.com`,
+        ])
+      );
+      expect(emails).not.toContain(`${testRunId}-before-range@example.com`);
+      expect(emails).not.toContain(`${testRunId}-after-range@example.com`);
+
+      response.body.data.data.forEach(
+        (lead: { sourceLead: string; createdAtLead: string }) => {
+          const createdAt = new Date(lead.createdAtLead).getTime();
+
+          expect(lead).toMatchObject({
+            sourceLead: `${testRunId}-date-range`,
+          });
+          expect(createdAt).toBeGreaterThanOrEqual(new Date(from).getTime());
+          expect(createdAt).toBeLessThanOrEqual(new Date(to).getTime());
+        }
+      );
+    });
+
+    it("Filtrar con from invalido retorna 400", async () => {
+      const response = await request(app)
+        .get("/api/leads")
+        .query({ from: "fecha-invalida" })
+        .set(authHeader());
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("Filtrar con status invalido retorna 400", async () => {
+      const response = await request(app)
+        .get("/api/leads")
+        .query({ status: "invalido" })
+        .set(authHeader());
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("Filtrar con limit mayor a 100 retorna 400", async () => {
+      const response = await request(app)
+        .get("/api/leads")
+        .query({ limit: 101 })
+        .set(authHeader());
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
   });
 
   describe("GET /api/leads/:id", () => {
@@ -383,6 +535,21 @@ describe("Leads CRUD", () => {
         .patch(`/api/leads/${createdLeadId}`)
         .set(authHeader())
         .send({});
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("Actualizar con emailLead invalido retorna 400", async () => {
+      const response = await request(app)
+        .patch(`/api/leads/${createdLeadId}`)
+        .set(authHeader())
+        .send({
+          emailLead: "invalid-email",
+        });
 
       expect(response.status).toBe(400);
       expect(response.body).toMatchObject({
@@ -479,6 +646,18 @@ describe("Leads CRUD", () => {
       expect(response.body).toMatchObject({
         success: false,
         message: "Lead no encontrado",
+      });
+    });
+
+    it("UUID invalido retorna 400", async () => {
+      const response = await request(app)
+        .delete("/api/leads/invalid-id")
+        .set(authHeader());
+
+      expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
       });
     });
   });
