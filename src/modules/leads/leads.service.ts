@@ -1,18 +1,9 @@
 import { LeadStatus, Prisma } from '@prisma/client';
 
+import { createAppError } from '../../shared/errors';
 import { prisma } from '../../shared/prisma';
 import { createStatusChangeActivity } from '../activities/activities.service';
 import { CreateLeadInput, QueryLeadsInput, UpdateLeadInput } from './leads.schema';
-
-type AppError = Error & {
-  statusCode?: number;
-};
-
-const createNotFoundError = () => {
-  const error: AppError = new Error('Lead no encontrado');
-  error.statusCode = 404;
-  return error;
-};
 
 const ensureLeadExists = async (id: string) => {
   const lead = await prisma.lead.findUnique({
@@ -22,7 +13,7 @@ const ensureLeadExists = async (id: string) => {
   });
 
   if (!lead) {
-    throw createNotFoundError();
+    throw createAppError('Lead no encontrado', 404);
   }
 
   return lead;

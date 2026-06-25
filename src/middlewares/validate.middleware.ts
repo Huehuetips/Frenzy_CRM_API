@@ -42,3 +42,24 @@ export const validateQuery =
     req.query = result.data;
     next();
   };
+
+export const validateParams =
+  (schema: ZodSchema): RequestHandler =>
+  (req, res, next) => {
+    const result = schema.safeParse(req.params);
+
+    if (!result.success) {
+      res.status(400).json({
+        success: false,
+        message: 'Validation error',
+        errors: result.error.errors.map((error) => ({
+          field: error.path.join('.'),
+          message: error.message
+        }))
+      });
+      return;
+    }
+
+    req.params = result.data;
+    next();
+  };

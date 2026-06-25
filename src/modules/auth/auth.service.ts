@@ -2,17 +2,8 @@ import bcrypt from 'bcryptjs';
 import jwt, { SignOptions } from 'jsonwebtoken';
 
 import { env } from '../../config/env';
+import { createAppError } from '../../shared/errors';
 import { prisma } from '../../shared/prisma';
-
-type AuthError = Error & {
-  statusCode?: number;
-};
-
-const createAuthError = () => {
-  const error: AuthError = new Error('Credenciales invalidas');
-  error.statusCode = 401;
-  return error;
-};
 
 export const login = async (email: string, password: string) => {
   const user = await prisma.user.findUnique({
@@ -22,13 +13,13 @@ export const login = async (email: string, password: string) => {
   });
 
   if (!user) {
-    throw createAuthError();
+    throw createAppError('Credenciales invalidas', 401);
   }
 
   const passwordMatches = await bcrypt.compare(password, user.passwordHashUser);
 
   if (!passwordMatches) {
-    throw createAuthError();
+    throw createAppError('Credenciales invalidas', 401);
   }
 
   const signOptions: SignOptions = {

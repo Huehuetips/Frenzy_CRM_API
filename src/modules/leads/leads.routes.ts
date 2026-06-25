@@ -1,8 +1,7 @@
-import { RequestHandler, Router } from 'express';
-import { ZodSchema } from 'zod';
+import { Router } from 'express';
 
 import { authMiddleware } from '../../middlewares/auth.middleware';
-import { validate, validateQuery } from '../../middlewares/validate.middleware';
+import { validate, validateParams, validateQuery } from '../../middlewares/validate.middleware';
 import * as leadsController from './leads.controller';
 import {
   changeStatusSchema,
@@ -13,27 +12,6 @@ import {
 } from './leads.schema';
 
 export const leadsRoutes = Router();
-
-const validateParams =
-  (schema: ZodSchema): RequestHandler =>
-  (req, res, next) => {
-    const result = schema.safeParse(req.params);
-
-    if (!result.success) {
-      res.status(400).json({
-        success: false,
-        message: 'Validation error',
-        errors: result.error.errors.map((error) => ({
-          field: error.path.join('.'),
-          message: error.message
-        }))
-      });
-      return;
-    }
-
-    req.params = result.data;
-    next();
-  };
 
 leadsRoutes.use(authMiddleware);
 

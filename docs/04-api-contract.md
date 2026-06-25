@@ -29,6 +29,7 @@ Authorization: Bearer <JWT_TOKEN>
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
 | POST | `/api/auth/login` | Login con email y password, retorna JWT |
+| GET | `/api/auth/me` | Obtener usuario autenticado (requiere JWT) |
 
 **Request body:**
 
@@ -71,6 +72,35 @@ Authorization: Bearer <JWT_TOKEN>
 {
   "success": false,
   "message": "Credenciales invalidas"
+}
+```
+
+### GET /api/auth/me
+
+**Header requerido:**
+
+```bash
+Authorization: Bearer <JWT_TOKEN>
+```
+
+**Response 200:**
+
+```json
+{
+  "success": true,
+  "data": {
+    "idUser": "uuid",
+    "emailUser": "admin@example.com"
+  }
+}
+```
+
+**Response 401:**
+
+```json
+{
+  "success": false,
+  "message": "Token invalido o ausente"
 }
 ```
 
