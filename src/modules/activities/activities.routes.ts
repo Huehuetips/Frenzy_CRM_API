@@ -36,7 +36,8 @@ activitiesRoutes.use(authMiddleware);
  *             properties:
  *               type:
  *                 type: string
- *                 enum: [note, status_change, webhook]
+ *                 enum: [note]
+ *                 description: Solo acepta 'note'. Los tipos status_change y webhook los genera el sistema internamente.
  *                 default: note
  *               note:
  *                 type: string

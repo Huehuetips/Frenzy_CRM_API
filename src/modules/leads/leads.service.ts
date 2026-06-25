@@ -1,8 +1,7 @@
-import { LeadStatus, Prisma } from '@prisma/client';
+import { LeadActivityType, LeadStatus, Prisma } from '@prisma/client';
 
 import { createAppError } from '../../shared/errors';
 import { prisma } from '../../shared/prisma';
-import { createStatusChangeActivity } from '../activities/activities.service';
 import { CreateLeadInput, QueryLeadsInput, UpdateLeadInput } from './leads.schema';
 
 const ensureLeadExists = async (id: string) => {
@@ -104,16 +103,24 @@ export const remove = async (id: string) => {
 export const changeStatus = async (id: string, status: LeadStatus) => {
   await ensureLeadExists(id);
 
-  const lead = await prisma.lead.update({
-    where: {
-      idLead: id
-    },
-    data: {
-      statusLead: status
-    }
+  return prisma.$transaction(async (tx) => {
+    const lead = await tx.lead.update({
+      where: {
+        idLead: id
+      },
+      data: {
+        statusLead: status
+      }
+    });
+
+    await tx.leadActivity.create({
+      data: {
+        leadId: id,
+        typeLeadActivity: LeadActivityType.status_change,
+        noteLeadActivity: `Estado cambiado a ${status}`
+      }
+    });
+
+    return lead;
   });
-
-  await createStatusChangeActivity(id, status);
-
-  return lead;
 };
