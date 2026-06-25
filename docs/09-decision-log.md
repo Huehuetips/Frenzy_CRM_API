@@ -87,6 +87,51 @@ Registro de decisiones tecnicas del proyecto. Cada decision incluye contexto, op
 
 ---
 
+## DEC-006: Email de lead no es unique
+
+**Fecha:** 2026-06-25
+**Estado:** Aprobada
+
+**Contexto:** El modelo Lead permite multiples leads con el mismo email.
+
+**Decision:** No agregar unique constraint en `emailLead`.
+
+**Justificacion:** Un contacto puede enviar multiples formularios desde diferentes fuentes. No restringir permite capturar todos los puntos de contacto.
+
+**Alternativa considerada:** Unique constraint en `emailLead` con upsert.
+
+---
+
+## DEC-007: Hard delete de leads con cascade
+
+**Fecha:** 2026-06-25
+**Estado:** Aprobada
+
+**Contexto:** `DELETE /api/leads/:id` elimina permanentemente el lead y todas sus activities asociadas.
+
+**Decision:** Hard delete con eliminacion en cascada via Prisma.
+
+**Justificacion:** Para el MVP no se requiere soft delete. La eliminacion en cascada mantiene integridad referencial sin dejar datos huerfanos.
+
+**Alternativa considerada:** Soft delete con campo `deletedAt` y filtro global.
+
+---
+
+## DEC-008: Rate limiting en login
+
+**Fecha:** 2026-06-25
+**Estado:** Aprobada
+
+**Contexto:** El endpoint `POST /api/auth/login` tiene rate limiting de 5 intentos por minuto por IP.
+
+**Decision:** Rate limiting especifico en el endpoint de login.
+
+**Justificacion:** Prevenir ataques de fuerza bruta contra credenciales. 5 intentos por minuto es suficiente para uso legitimo.
+
+**Alternativa considerada:** Rate limiting global en toda la API.
+
+---
+
 ## Plantilla para nuevas decisiones
 
 ```markdown

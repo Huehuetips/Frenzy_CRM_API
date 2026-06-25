@@ -2,10 +2,10 @@ import { LeadStatus } from '@prisma/client';
 import { z } from 'zod';
 
 export const createLeadSchema = z.object({
-  nameLead: z.string().min(1),
-  emailLead: z.string().email(),
-  phoneLead: z.string().optional(),
-  sourceLead: z.string().optional()
+  nameLead: z.string().trim().min(1).max(100),
+  emailLead: z.string().trim().email().max(255),
+  phoneLead: z.string().trim().regex(/^\+?[\d\s\-()]+$/, 'Formato de telefono invalido').max(20).optional(),
+  sourceLead: z.string().trim().toLowerCase().max(50).optional()
 });
 
 export const updateLeadSchema = createLeadSchema.partial().refine(
@@ -31,7 +31,16 @@ export const queryLeadsSchema = z.object({
   to: z.string().datetime().optional(),
   page: z.coerce.number().int().positive().default(1),
   limit: z.coerce.number().int().positive().max(100).default(20)
-});
+}).refine(
+  (data) => {
+    if (data.from && data.to) {
+      return new Date(data.from) <= new Date(data.to);
+    }
+
+    return true;
+  },
+  { message: 'La fecha from debe ser anterior o igual a to', path: ['from'] }
+);
 
 export type CreateLeadInput = z.infer<typeof createLeadSchema>;
 export type UpdateLeadInput = z.infer<typeof updateLeadSchema>;

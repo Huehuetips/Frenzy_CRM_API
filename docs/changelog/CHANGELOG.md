@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.5.1] - 2026-06-25
+
+### Added
+
+- Tests de QA por validacion individual y rate limiter aislado por app (80 tests).
+- Rate limiting en login (5 intentos/min por IP).
+- Manejo de errores Prisma (P2002, P2025, P2003) en middleware global.
+- Validacion de JWT payload con Zod en auth middleware.
+- Timing-safe comparison en webhook API key middleware.
+
+### Changed
+
+- Body limit reducido a 10kb en Express JSON middleware.
+- Schemas actualizados con trim, max length y phone regex.
+- Activity type restringido a `note` para endpoint manual.
+- Source normalizado a lowercase en webhook schema.
+- Query `from` validado con `<=` a fecha actual.
+
+## [0.5.0] - 2026-06-25
+
+### Changed
+
+- Error middleware importa AppError desde shared/errors.ts
+- README actualizado con endpoints /api, seccion de tests, Swagger y estructura
+- Fase 5 completada
+
 ## [0.4.0] - 2026-06-24
 
 ### Added

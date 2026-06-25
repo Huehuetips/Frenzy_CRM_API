@@ -1,6 +1,6 @@
 # Fase 5: Validaciones, errores y documentacion
 
-**Estado:** Pendiente
+**Estado:** Completada
 
 ## Objetivo
 
@@ -10,21 +10,21 @@ Normalizar respuestas, centralizar manejo de errores y documentar endpoints.
 
 ### Validaciones
 
-- [ ] Validar todos los inputs con Zod (schemas por modulo)
-- [ ] Crear middleware de validacion reutilizable
+- [x] Validar todos los inputs con Zod (schemas por modulo)
+- [x] Crear middleware de validacion reutilizable
 
 ### Manejo de errores
 
-- [ ] Crear middleware global de errores
-- [ ] Normalizar formato de respuestas de error
-- [ ] Normalizar formato de respuestas exitosas
-- [ ] Manejar errores de Prisma (not found, unique constraint, etc.)
+- [x] Crear middleware global de errores
+- [x] Normalizar formato de respuestas de error
+- [x] Normalizar formato de respuestas exitosas
+- [x] Manejar errores de Prisma (not found, unique constraint, etc.)
 
 ### Documentacion
 
-- [ ] Configurar Swagger con swagger-jsdoc + swagger-ui-express
-- [ ] Documentar todos los endpoints con anotaciones JSDoc
-- [ ] Endpoint Swagger UI en `/api-docs`
+- [x] Configurar Swagger con swagger-jsdoc + swagger-ui-express
+- [x] Documentar todos los endpoints con anotaciones JSDoc
+- [x] Endpoint Swagger UI en `/docs`
 
 ## Formato estandar de respuestas
 
@@ -66,5 +66,5 @@ src/shared/
 ## Entregables
 
 - Errores claros y consistentes en toda la API
-- Swagger accesible en `/api-docs`
+- Swagger accesible en `/docs`
 - Validacion centralizada sin duplicar logica

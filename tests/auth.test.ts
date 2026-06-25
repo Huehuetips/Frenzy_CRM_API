@@ -10,6 +10,7 @@ import { authMiddleware } from '../src/middlewares/auth.middleware';
 import { prisma } from '../src/shared/prisma';
 
 const app = createApp();
+const loginValidationApp = createApp();
 
 app.get('/api/test/protected', authMiddleware, (_req, res) => {
   res.status(200).json({ success: true });
@@ -136,10 +137,12 @@ describe('Auth module', () => {
     });
 
     it('Login con password vacio retorna 400', async () => {
-      const response = await request(app).post('/api/auth/login').send({
-        email: testUser.email,
-        password: ''
-      });
+      const response = await request(loginValidationApp)
+        .post('/api/auth/login')
+        .send({
+          email: testUser.email,
+          password: ''
+        });
 
       expect(response.status).toBe(400);
       expect(response.body).toMatchObject({
@@ -198,12 +201,14 @@ describe('Auth module', () => {
     });
 
     it('Acceso con token valido retorna 200 con datos del usuario', async () => {
-      const loginResponse = await request(app).post('/api/auth/login').send({
+      const meApp = createApp();
+
+      const loginResponse = await request(meApp).post('/api/auth/login').send({
         email: testUser.email,
         password: testUser.password
       });
 
-      const response = await request(app)
+      const response = await request(meApp)
         .get('/api/auth/me')
         .set('Authorization', `Bearer ${loginResponse.body.data.token}`);
 
@@ -214,6 +219,37 @@ describe('Auth module', () => {
           emailUser: testUser.email
         }
       });
+    });
+  });
+
+  describe('Rate Limiting', () => {
+    const rateLimitApp = createApp();
+    const rateLimitIp = '203.0.113.10';
+
+    rateLimitApp.set('trust proxy', 1);
+
+    it('Permite 5 intentos de login', async () => {
+      for (let i = 0; i < 5; i += 1) {
+        const response = await request(rateLimitApp)
+          .post('/api/auth/login')
+          .set('X-Forwarded-For', rateLimitIp)
+          .send({ email: 'rate@test.com', password: 'wrong' });
+
+        expect(response).toMatchObject({ status: 401 });
+        expect(response.body).toMatchObject({
+          success: false
+        });
+      }
+    });
+
+    it('Bloquea el 6to intento con 429', async () => {
+      const response = await request(rateLimitApp)
+        .post('/api/auth/login')
+        .set('X-Forwarded-For', rateLimitIp)
+        .send({ email: 'rate@test.com', password: 'wrong' });
+
+      expect(response).toMatchObject({ status: 429 });
+      expect(response.body).toMatchObject({ success: false });
     });
   });
 });
