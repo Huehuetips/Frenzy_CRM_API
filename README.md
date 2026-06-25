@@ -1,183 +1,286 @@
 # Frenzy CRM API
 
-API REST para administracion de leads, construida con Node.js, TypeScript, Express y PostgreSQL.
+API REST para administración de leads, construida con Node.js 22, TypeScript, Express y PostgreSQL.
 
 ## Stack
 
-- **Runtime:** Node.js 22
-- **Framework:** Express
-- **Lenguaje:** TypeScript
-- **Base de datos:** PostgreSQL 16
-- **ORM:** Prisma
-- **Autenticacion:** JWT (jsonwebtoken + bcryptjs)
-- **Validaciones:** Zod
-- **Documentacion:** Swagger (swagger-jsdoc + swagger-ui-express)
-- **Testing:** Jest + Supertest
-- **Contenedores:** Docker + Docker Compose
+| Capa | Tecnología |
+|---|---|
+| Runtime | Node.js 22 |
+| Framework | Express |
+| Lenguaje | TypeScript (CommonJS) |
+| ORM | Prisma 5 |
+| Base de datos | PostgreSQL 16 |
+| Autenticación | JWT (jsonwebtoken + bcryptjs) |
+| Validaciones | Zod |
+| Documentación | Swagger (swagger-jsdoc + swagger-ui-express) |
+| Testing | Jest + Supertest |
+| Contenedores | Docker + Docker Compose |
+
+---
 
 ## Requisitos previos
 
-- Docker
-- Docker Compose
+- [Docker](https://docs.docker.com/get-docker/) (incluye Docker Compose)
+- No se necesita Node.js ni PostgreSQL instalados localmente
 
-## Instalacion
+---
+
+## Instalación y arranque (Docker)
+
+### 1. Clonar el repositorio
 
 ```bash
 git clone <repo-url>
-cd frenzy-crm-api
+cd Frency_CRM
+```
+
+### 2. Crear el archivo de variables de entorno
+
+```bash
 cp .env.example .env
+```
+
+Edita `.env` y establece valores seguros para producción. Para desarrollo local con Docker los defaults del `.env.example` funcionan sin cambios.
+
+> **Nota importante:** `DATABASE_URL` en `.env` se usa solo para conectar desde el host (ej. cliente SQL externo o tests locales). Docker Compose usa internamente `postgres:5432` y sobreescribe este valor de forma automática.
+
+### 3. Levantar la API y la base de datos
+
+```bash
 docker compose up --build
 ```
 
-Esto levanta PostgreSQL, ejecuta migraciones, crea el usuario demo, genera 50 leads de prueba con actividades y arranca la API con hot-reload.
+Este comando:
+- Construye la imagen de la API
+- Levanta PostgreSQL y espera a que esté saludable
+- Ejecuta las migraciones de Prisma
+- Carga el seed (usuario demo + 50 leads de prueba con actividades)
+- Arranca la API en modo hot-reload
 
-La API estara disponible en http://localhost:3000
+La API estará disponible en **http://localhost:3000** en cuanto veas:
 
-## Produccion
-
-```bash
-docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
+```
+frenzy-crm-api | Server listening on port 3000
 ```
 
-## Documentacion interactiva (Swagger)
+### 4. Verificar que funciona
 
-Disponible en: http://localhost:3000/docs
+```bash
+curl http://localhost:3000/api/health
+# {"success":true,"message":"ok"}
+```
 
-Desde ahi puedes probar todos los endpoints. Para endpoints protegidos, primero haz login, copia el token y pegalo en el boton "Authorize".
+### Detener y limpiar
+
+```bash
+# Solo detener (mantiene datos)
+docker compose down
+
+# Detener y borrar volúmenes (base de datos limpia)
+docker compose down -v
+```
+
+---
+
+## Variables de entorno
+
+| Variable | Descripción | Requerida | Ejemplo |
+|---|---|---|---|
+| `NODE_ENV` | Entorno de ejecución | No | `development` |
+| `PORT` | Puerto de la API | No | `3000` |
+| `DATABASE_URL` | URL de conexión a PostgreSQL | Sí (tests locales) | `postgresql://user:pass@localhost:5433/db` |
+| `JWT_SECRET` | Secreto para firmar JWT (min 16 chars) | Sí | `mi-secreto-muy-largo` |
+| `JWT_EXPIRES_IN` | Duración del JWT | No | `1d` |
+| `WEBHOOK_SECRET` | API Key para el webhook externo | Sí | `mi-api-key-segura` |
+
+En Docker Compose los defaults del `docker-compose.yml` cubren `DATABASE_URL`, `JWT_SECRET`, `JWT_EXPIRES_IN` y `WEBHOOK_SECRET` para desarrollo.
+
+---
+
+## Documentación interactiva (Swagger)
+
+Disponible en: **http://localhost:3000/docs**
+
+Desde ahí puedes probar todos los endpoints. Flujo:
+
+1. Ejecuta `POST /auth/login` con las credenciales del usuario demo
+2. Copia el `token` de la respuesta
+3. Haz clic en **Authorize** (arriba a la derecha) → escribe `Bearer <token>` → Authorize
+4. Ya puedes ejecutar cualquier endpoint protegido
+
+---
+
+## Usuario demo
+
+El seed crea automáticamente:
+
+| Campo | Valor |
+|---|---|
+| Email | `admin@example.com` |
+| Password | `admin12345` |
+
+También crea 50 leads distribuidos en todos los estados con actividades de ejemplo.
+
+---
 
 ## Ejecutar tests
 
+Los contenedores deben estar corriendo (`docker compose up --build`).
+
 ```bash
+# Suite completa (80 tests)
 docker compose exec api npx jest --runInBand --verbose
-```
 
-Para ejecutar una suite especifica:
-
-```bash
+# Suite individual
 docker compose exec api npx jest --runInBand --verbose tests/auth.test.ts
 docker compose exec api npx jest --runInBand --verbose tests/leads.test.ts
 docker compose exec api npx jest --runInBand --verbose tests/activities.test.ts
 docker compose exec api npx jest --runInBand --verbose tests/webhooks.test.ts
 ```
 
+Resultado esperado: `Tests: 80 passed, 4 suites passed`.
+
+---
+
 ## Conectar a la base de datos
 
+Desde el host (requiere Docker corriendo):
+
 ```bash
+# Cliente psql dentro del contenedor
 docker compose exec postgres psql -U frenzy_crm -d frenzy_crm
+
+# Puerto externo para clientes SQL (DBeaver, TablePlus, etc.)
+# Host: localhost  Puerto: 5433  Usuario: frenzy_crm  Password: frenzy_crm_password  BD: frenzy_crm
 ```
 
-Tablas: `users`, `leads`, `lead_activities` (snake_case). Campos en camelCase.
+Tablas: `users`, `leads`, `lead_activities` (snake_case). Campos en camelCase con sufijo de entidad (`nameLead`, `emailUser`, etc.).
 
-## Variables de entorno
-
-| Variable | Descripcion | Default |
-|----------|-------------|---------|
-| `NODE_ENV` | Entorno de ejecucion | `development` |
-| `PORT` | Puerto de la API | `3000` |
-| `DATABASE_URL` | URL de conexion a PostgreSQL | - |
-| `JWT_SECRET` | Secreto para firmar JWT (min 16 chars) | - |
-| `JWT_EXPIRES_IN` | Tiempo de expiracion del JWT | `1d` |
-| `WEBHOOK_SECRET` | API Key para webhook externo (min 8 chars) | - |
+---
 
 ## Endpoints
 
 ### Auth
 
-| Metodo | Ruta | Auth | Descripcion |
-|--------|------|------|-------------|
-| POST | `/api/auth/login` | Publica | Login, retorna JWT |
-| GET | `/api/auth/me` | JWT | Obtener usuario autenticado |
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `POST` | `/api/auth/login` | Pública | Login, retorna JWT |
+| `GET` | `/api/auth/me` | JWT | Obtener usuario autenticado |
 
 ### Leads
 
-| Metodo | Ruta | Auth | Descripcion |
-|--------|------|------|-------------|
-| POST | `/api/leads` | JWT | Crear lead |
-| GET | `/api/leads` | JWT | Listar leads (con filtros y paginacion) |
-| GET | `/api/leads/:id` | JWT | Obtener lead por ID |
-| PATCH | `/api/leads/:id` | JWT | Editar lead |
-| DELETE | `/api/leads/:id` | JWT | Eliminar lead |
-| PATCH | `/api/leads/:id/status` | JWT | Cambiar estado |
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `POST` | `/api/leads` | JWT | Crear lead |
+| `GET` | `/api/leads` | JWT | Listar leads con filtros y paginación |
+| `GET` | `/api/leads/:id` | JWT | Obtener lead por ID |
+| `PATCH` | `/api/leads/:id` | JWT | Editar lead |
+| `DELETE` | `/api/leads/:id` | JWT | Eliminar lead |
+| `PATCH` | `/api/leads/:id/status` | JWT | Cambiar estado |
 
 ### Actividades
 
-| Metodo | Ruta | Auth | Descripcion |
-|--------|------|------|-------------|
-| POST | `/api/leads/:id/activities` | JWT | Agregar actividad |
-| GET | `/api/leads/:id/activities` | JWT | Listar actividades |
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `POST` | `/api/leads/:id/activities` | JWT | Agregar nota/actividad |
+| `GET` | `/api/leads/:id/activities` | JWT | Listar actividades del lead (desc) |
 
 ### Webhooks
 
-| Metodo | Ruta | Auth | Descripcion |
-|--------|------|------|-------------|
-| POST | `/api/webhooks/leads` | API Key | Crear lead externo |
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `POST` | `/api/webhooks/leads` | API Key | Crear lead desde sistema externo |
+
+La API Key va en el header `x-api-key` con el valor de `WEBHOOK_SECRET`.
 
 ### Otros
 
-| Metodo | Ruta | Auth | Descripcion |
-|--------|------|------|-------------|
-| GET | `/api/health` | Publica | Health check |
+| Método | Ruta | Auth | Descripción |
+|---|---|---|---|
+| `GET` | `/api/health` | Pública | Health check |
+| `GET` | `/docs` | Pública | Swagger UI |
 
-## Filtros disponibles (GET /api/leads)
+---
 
-| Param | Tipo | Descripcion |
-|-------|------|-------------|
-| `email` | string | Busqueda parcial por email |
-| `status` | string | nuevo, contactado, calificado, perdido, convertido |
-| `source` | string | Filtrar por fuente |
-| `from` | ISO date | Fecha inicio |
-| `to` | ISO date | Fecha fin |
-| `page` | number | Pagina (default: 1) |
-| `limit` | number | Resultados por pagina (default: 20, max: 100) |
+## Filtros disponibles — `GET /api/leads`
 
-## Usuario demo
+| Parámetro | Tipo | Descripción | Ejemplo |
+|---|---|---|---|
+| `email` | string | Búsqueda parcial por email | `?email=juan` |
+| `status` | string | Estado exacto | `?status=contactado` |
+| `source` | string | Fuente exacta | `?source=google` |
+| `from` | ISO 8601 | Fecha de creación desde | `?from=2026-01-01T00:00:00.000Z` |
+| `to` | ISO 8601 | Fecha de creación hasta | `?to=2026-12-31T23:59:59.999Z` |
+| `page` | number | Página (default: 1) | `?page=2` |
+| `limit` | number | Por página (default: 20, max: 100) | `?limit=50` |
 
-- **Email:** admin@example.com
-- **Password:** admin12345
+Estados válidos: `nuevo`, `contactado`, `calificado`, `perdido`, `convertido`.
 
-### Token expirado para pruebas
+---
 
-Este token ya esta expirado y puede usarse para verificar que la API rechaza tokens invalidos:
+## Formato de respuesta
 
+Todas las respuestas usan el mismo envelope:
+
+```json
+{ "success": true, "data": { ... } }
+{ "success": false, "message": "Descripción del error" }
+{ "success": false, "message": "Validation error", "errors": [ { "field": "emailLead", "message": "..." } ] }
 ```
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZFVzZXIiOiJkZW1vIiwiZW1haWxVc2VyIjoiYWRtaW5AZXhhbXBsZS5jb20iLCJpYXQiOjE3ODIzMzgwMTEsImV4cCI6MTc4MjMzODAxMn0.urpS0GPGLqndhEikA8gkt7OPg5eKmDgErnLFWwrA13E
+
+---
+
+## Producción
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up --build
 ```
 
-> Tambien se genera uno nuevo cada vez que se ejecuta el seed. Puedes verlo con: `docker compose logs api`
+La imagen de producción es multi-stage: solo incluye el build compilado sin dependencias de desarrollo.
+
+---
 
 ## Estructura del proyecto
 
 ```
 src/
-  config/          -- Configuracion (env vars, swagger)
-  shared/          -- Prisma client, errores centralizados
-  middlewares/     -- Auth JWT, validacion Zod, errores, webhook auth
+  config/           Variables de entorno (Zod) y configuración de Swagger
+  shared/           PrismaClient singleton y AppError
+  middlewares/      Auth JWT, validación Zod, errores globales, webhook auth
   modules/
-    auth/          -- Login y JWT
-    leads/         -- CRUD de leads
-    activities/    -- Notas y actividades
-    webhooks/      -- Recepcion de leads externos
-  app.ts           -- Configuracion de Express
-  server.ts        -- Entry point
+    auth/           Login y JWT (/api/auth)
+    leads/          CRUD de leads (/api/leads)
+    activities/     Notas y actividades (/api/leads/:id/activities)
+    webhooks/       Recepción de leads externos (/api/webhooks)
+  app.ts            Configuración de Express
+  server.ts         Entry point
 
 prisma/
-  schema.prisma    -- Modelos de BD
-  seed.ts          -- 50 leads con faker + usuario demo
-  migrations/      -- Migraciones SQL
+  schema.prisma     Modelos de BD
+  seed.ts           50 leads con faker + usuario demo
+  migrations/       Migraciones SQL generadas
 
-tests/             -- Tests con Jest + Supertest
-docs/              -- Documentacion tecnica
-docker/            -- Scripts de Docker (entrypoint)
+tests/              Tests con Jest + Supertest (80 tests, DB real)
+docs/               Documentación técnica del proyecto
+docker/             Scripts de Docker (entrypoint dev)
 ```
 
-## Documentacion tecnica
+---
 
-- [Project Brief](./docs/00-project-brief.md)
-- [Alcance](./docs/01-scope.md)
-- [Arquitectura](./docs/02-architecture.md)
-- [Roadmap](./docs/03-roadmap.md)
-- [Contrato de API](./docs/04-api-contract.md)
-- [Modelo de BD](./docs/05-database-model.md)
-- [Testing](./docs/07-testing-strategy.md)
-- [Docker](./docs/08-deployment-docker.md)
-- [Decision Log](./docs/09-decision-log.md)
+## Documentación técnica
+
+| Documento | Descripción |
+|---|---|
+| [Project Brief](./docs/00-project-brief.md) | Objetivo y alcance del proyecto |
+| [Scope](./docs/01-scope.md) | MVP y criterios de aceptación |
+| [Arquitectura](./docs/02-architecture.md) | Diseño del sistema |
+| [Roadmap](./docs/03-roadmap.md) | Fases del proyecto |
+| [API Contract](./docs/04-api-contract.md) | Contrato de endpoints |
+| [Database Model](./docs/05-database-model.md) | Modelo de datos |
+| [Testing Strategy](./docs/07-testing-strategy.md) | Estrategia de tests |
+| [Docker](./docs/08-deployment-docker.md) | Despliegue con Docker |
+| [Decision Log](./docs/09-decision-log.md) | Decisiones técnicas (DEC-001 a DEC-008) |
+| [Project Summary](./docs/10-project-summary.md) | Resumen completo del proyecto |
+| [Changelog](./docs/changelog/CHANGELOG.md) | Historial de cambios |
+| [Agent Log](./docs/changelog/agent-log.md) | Registro de actividad por agente |
