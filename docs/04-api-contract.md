@@ -8,7 +8,7 @@ http://localhost:3000
 
 ## Autenticacion
 
-Todos los endpoints (excepto `/api/auth/login`, `/api/health` y `/webhooks/*`) requieren header:
+Todos los endpoints (excepto `/api/auth/login`, `/api/health` y `/api/webhooks/*`) requieren header:
 
 ```bash
 Authorization: Bearer <JWT_TOKEN>
@@ -166,7 +166,7 @@ Authorization: Bearer <JWT_TOKEN>
 
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
-| POST | `/webhooks/leads` | Crear lead desde fuente externa |
+| POST | `/api/webhooks/leads` | Crear lead desde fuente externa |
 
 **Header requerido:**
 

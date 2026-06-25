@@ -73,12 +73,12 @@ describe("Webhooks module", () => {
     await prisma.$disconnect();
   });
 
-  describe("POST /webhooks/leads", () => {
+  describe("POST /api/webhooks/leads", () => {
     it("Crear lead con API key valida retorna 201 con datos correctos", async () => {
       const webhookData = buildWebhookLead("created");
 
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send(webhookData);
 
@@ -102,7 +102,7 @@ describe("Webhooks module", () => {
       const webhookData = buildWebhookLead("activity");
 
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send(webhookData);
 
@@ -132,7 +132,7 @@ describe("Webhooks module", () => {
       };
 
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send(webhookData);
 
@@ -152,7 +152,7 @@ describe("Webhooks module", () => {
 
     it('Sin API key retorna 401 con message "API Key invalida o ausente"', async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .send(buildWebhookLead("no-api-key"));
 
       expect(response.status).toBe(401);
@@ -164,7 +164,7 @@ describe("Webhooks module", () => {
 
     it("API key incorrecta retorna 401", async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", "wrong-api-key")
         .send(buildWebhookLead("wrong-api-key"));
 
@@ -177,7 +177,7 @@ describe("Webhooks module", () => {
 
     it("Payload sin email retorna 400", async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send({
           name: `Webhook Lead Missing Email ${testRunId}`,
@@ -194,7 +194,7 @@ describe("Webhooks module", () => {
 
     it("Email invalido retorna 400", async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send(buildWebhookLead("invalid-email", { email: "invalid-email" }));
 
@@ -207,7 +207,7 @@ describe("Webhooks module", () => {
 
     it("Payload sin name retorna 400", async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send({
           email: `${testRunId}-missing-name@example.com`,
@@ -224,7 +224,7 @@ describe("Webhooks module", () => {
 
     it('Name vacio ("") retorna 400', async () => {
       const response = await request(app)
-        .post("/webhooks/leads")
+        .post("/api/webhooks/leads")
         .set("x-api-key", env.WEBHOOK_SECRET)
         .send(buildWebhookLead("empty-name", { name: "" }));
 
