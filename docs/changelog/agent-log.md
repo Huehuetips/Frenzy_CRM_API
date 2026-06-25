@@ -4,6 +4,50 @@
 
 ### Tipo de cambio
 
+QA Hardening - Seguridad y validaciones
+
+### Archivos modificados
+
+- src/middlewares/error.middleware.ts
+- src/middlewares/auth.middleware.ts
+- src/middlewares/webhook.middleware.ts
+- src/app.ts
+- src/modules/auth/auth.routes.ts
+- src/modules/auth/auth.schema.ts
+- src/modules/leads/leads.schema.ts
+- src/modules/activities/activities.schema.ts
+- src/modules/webhooks/webhooks.schema.ts
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se aplicaron los siguientes cambios de seguridad y endurecimiento:
+
+- **Rate limiting en login**: `express-rate-limit` configurado a 5 intentos por minuto por IP en `POST /api/auth/login`. Previene ataques de fuerza bruta.
+- **Body limit 10kb**: `express.json({ limit: '10kb' })` en `src/app.ts`. Mitiga ataques de payload oversized.
+- **Manejo de errores Prisma**: El middleware global de errores detecta y responde de forma especifica ante `P2002` (unique constraint), `P2025` (record not found) y `P2003` (foreign key violation).
+- **Validacion JWT payload con Zod**: El auth middleware valida la estructura del payload decodificado antes de asignarlo a `req.user`, evitando tokens malformados que pasen la firma.
+- **Timing-safe comparison en webhook**: Reemplazada comparacion directa de strings por `crypto.timingSafeEqual` en el middleware de webhook para prevenir timing attacks.
+- **Schemas endurecidos con Zod**: Aplicados `.trim()`, `.max()` y regex de telefono en schemas de auth, leads, activities y webhooks.
+- **Activity type restringido**: El schema de actividades manuales restringe `type` a `note` unicamente (los tipos automaticos como `status_change` solo los genera el sistema).
+- **Source normalizado a lowercase**: El schema de webhooks aplica `.toLowerCase()` al campo `source` para normalizar entradas externas.
+- **Query `from` validado**: El filtro de fecha `from` en leads incluye validacion `lte` contra la fecha actual para evitar rangos invalidos.
+
+### Motivo
+
+Aplicar QA hardening de seguridad sin modificar contratos de API, tests ni schema de Prisma.
+
+### Pendientes
+
+- Revision de Claude Code.
+
+---
+
+## 2026-06-25 — Codex
+
+### Tipo de cambio
+
 QA y seguridad - Validaciones y middlewares
 
 ### Archivos modificados

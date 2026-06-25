@@ -2,13 +2,20 @@
 
 ## [0.5.1] - 2026-06-25
 
+### Added
+
+- Rate limiting en login (5 intentos/min por IP).
+- Manejo de errores Prisma (P2002, P2025, P2003) en middleware global.
+- Validacion de JWT payload con Zod en auth middleware.
+- Timing-safe comparison en webhook API key middleware.
+
 ### Changed
 
-- Endurecidas validaciones Zod de auth, leads, activities y webhooks.
-- Middleware global de errores ahora maneja errores conocidos de Prisma.
-- Login protegido con rate limiting y JSON body limitado a 10kb.
-- Middleware de webhook usa comparacion timing-safe.
-- Middleware JWT valida el payload decodificado con Zod.
+- Body limit reducido a 10kb en Express JSON middleware.
+- Schemas actualizados con trim, max length y phone regex.
+- Activity type restringido a `note` para endpoint manual.
+- Source normalizado a lowercase en webhook schema.
+- Query `from` validado con `<=` a fecha actual.
 
 ## [0.5.0] - 2026-06-25
 
