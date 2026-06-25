@@ -102,12 +102,14 @@ Authorization: Bearer <JWT_TOKEN>
 ```json
 {
   "success": true,
-  "data": [...],
-  "meta": {
-    "total": 100,
-    "page": 1,
-    "limit": 20,
-    "totalPages": 5
+  "data": {
+    "data": [...],
+    "meta": {
+      "total": 100,
+      "page": 1,
+      "limit": 20,
+      "totalPages": 5
+    }
   }
 }
 ```
@@ -116,10 +118,19 @@ Authorization: Bearer <JWT_TOKEN>
 
 ```json
 {
-  "name": "Juan Perez",
-  "email": "juan@example.com",
-  "phone": "+521234567890",
-  "source": "landing_page"
+  "nameLead": "Juan Perez",
+  "emailLead": "juan@example.com",
+  "phoneLead": "+521234567890",
+  "sourceLead": "landing_page"
+}
+```
+
+**Request body (PATCH /api/leads/:id):**
+
+```json
+{
+  "nameLead": "Juan Perez Actualizado",
+  "phoneLead": "+521234567891"
 }
 ```
 
@@ -127,7 +138,7 @@ Authorization: Bearer <JWT_TOKEN>
 
 ```json
 {
-  "status": "contactado"
+  "statusLead": "contactado"
 }
 ```
 
@@ -137,8 +148,8 @@ Authorization: Bearer <JWT_TOKEN>
 
 | Metodo | Ruta | Descripcion |
 | ------ | ---- | ----------- |
-| POST | `/leads/:id/activities` | Agregar nota/actividad |
-| GET | `/leads/:id/activities` | Listar actividades del lead |
+| POST | `/api/leads/:id/activities` | Agregar nota/actividad |
+| GET | `/api/leads/:id/activities` | Listar actividades del lead |
 
 **Request body (POST):**
 
@@ -148,6 +159,8 @@ Authorization: Bearer <JWT_TOKEN>
   "note": "Se contacto por telefono, interesado en producto X"
 }
 ```
+
+**Tipos validos:** `note`, `status_change`, `webhook`
 
 ### Webhooks
 
