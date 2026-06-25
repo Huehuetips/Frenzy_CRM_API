@@ -6,6 +6,7 @@ const envSchema = z.object({
   DATABASE_URL: z.string().url(),
   JWT_SECRET: z.string().min(16),
   JWT_EXPIRES_IN: z.string().default('1d'),
+  ALLOWED_ORIGINS: z.string().default('*'),
   WEBHOOK_SECRET: z.string().min(8)
 });
 

@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import swaggerUi from 'swagger-ui-express';
 
+import { env } from './config/env';
 import { swaggerSpec } from './config/swagger';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { activitiesRoutes } from './modules/activities/activities.routes';
@@ -15,7 +16,9 @@ export const createApp = () => {
   const app = express();
 
   app.use(helmet());
-  app.use(cors());
+  app.use(cors({
+    origin: env.ALLOWED_ORIGINS === '*' ? '*' : env.ALLOWED_ORIGINS.split(',')
+  }));
   app.use(express.json({ limit: '10kb' }));
   app.use(morgan('dev'));
 
