@@ -17,7 +17,7 @@ export const createApp = () => {
 
   app.use(helmet());
   app.use(cors({
-    origin: env.ALLOWED_ORIGINS === '*' ? '*' : env.ALLOWED_ORIGINS.split(',')
+    origin: env.ALLOWED_ORIGINS === '*' ? '*' : env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
   }));
   app.use(express.json({ limit: '10kb' }));
   app.use(morgan('dev'));
@@ -38,6 +38,10 @@ export const createApp = () => {
   app.use('/api/leads/:id/activities', activitiesRoutes);
   app.use('/api/leads', leadsRoutes);
   app.use('/api/webhooks', webhooksRoutes);
+
+  app.use((_req, res) => {
+    res.status(404).json({ success: false, message: 'Ruta no encontrada' });
+  });
 
   app.use(errorMiddleware);
 

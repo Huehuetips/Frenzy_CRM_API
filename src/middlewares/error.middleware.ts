@@ -3,9 +3,7 @@ import { Prisma } from '@prisma/client';
 
 import { AppError } from '../shared/errors';
 
-export const errorMiddleware: ErrorRequestHandler = (err, _req, res, next) => {
-  void next;
-
+export const errorMiddleware: ErrorRequestHandler = (err, _req, res, _next) => {
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
       res.status(409).json({ success: false, message: 'El registro ya existe (campo duplicado)' });
