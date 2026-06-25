@@ -1,6 +1,7 @@
 import { LeadStatus, Prisma } from '@prisma/client';
 
 import { prisma } from '../../shared/prisma';
+import { createStatusChangeActivity } from '../activities/activities.service';
 import { CreateLeadInput, QueryLeadsInput, UpdateLeadInput } from './leads.schema';
 
 type AppError = Error & {
@@ -112,7 +113,7 @@ export const remove = async (id: string) => {
 export const changeStatus = async (id: string, status: LeadStatus) => {
   await ensureLeadExists(id);
 
-  return prisma.lead.update({
+  const lead = await prisma.lead.update({
     where: {
       idLead: id
     },
@@ -120,4 +121,8 @@ export const changeStatus = async (id: string, status: LeadStatus) => {
       statusLead: status
     }
   });
+
+  await createStatusChangeActivity(id, status);
+
+  return lead;
 };
