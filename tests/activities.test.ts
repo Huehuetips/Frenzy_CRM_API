@@ -381,4 +381,70 @@ describe("Lead activities", () => {
       });
     });
   });
+
+  describe("Validaciones de QA", () => {
+    it("note con mas de 2000 chars retorna 400", async () => {
+      const response = await request(app)
+        .post(`/api/leads/${leadId}/activities`)
+        .set(authHeader())
+        .send(buildActivity("qa-long-note", { note: "a".repeat(2001) }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("type status_change retorna 400", async () => {
+      const response = await request(app)
+        .post(`/api/leads/${leadId}/activities`)
+        .set(authHeader())
+        .send({ type: "status_change", note: "test" });
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("type webhook retorna 400", async () => {
+      const response = await request(app)
+        .post(`/api/leads/${leadId}/activities`)
+        .set(authHeader())
+        .send({ type: "webhook", note: "test" });
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("note con espacios se trimmea", async () => {
+      const response = await request(app)
+        .post(`/api/leads/${leadId}/activities`)
+        .set(authHeader())
+        .send(buildActivity("qa-trim-note", { note: "  nota test  " }));
+
+      expect(response).toMatchObject({ status: 201 });
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          noteLeadActivity: "nota test",
+        },
+      });
+
+      const activity = await prisma.leadActivity.findUnique({
+        where: {
+          idLeadActivity: response.body.data.idLeadActivity,
+        },
+      });
+
+      expect(activity).toMatchObject({
+        noteLeadActivity: "nota test",
+      });
+    });
+  });
 });

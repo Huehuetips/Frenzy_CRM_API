@@ -7,7 +7,7 @@ import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './config/swagger';
 import { errorMiddleware } from './middlewares/error.middleware';
 import { activitiesRoutes } from './modules/activities/activities.routes';
-import { authRoutes } from './modules/auth/auth.routes';
+import { createAuthRoutes } from './modules/auth/auth.routes';
 import { leadsRoutes } from './modules/leads/leads.routes';
 import { webhooksRoutes } from './modules/webhooks/webhooks.routes';
 
@@ -31,7 +31,7 @@ export const createApp = () => {
     res.status(200).json({ success: true, message: 'ok' });
   });
 
-  app.use('/api/auth', authRoutes);
+  app.use('/api/auth', createAuthRoutes());
   app.use('/api/leads/:id/activities', activitiesRoutes);
   app.use('/api/leads', leadsRoutes);
   app.use('/api/webhooks', webhooksRoutes);

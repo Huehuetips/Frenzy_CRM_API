@@ -6,15 +6,16 @@ import { validate } from '../../middlewares/validate.middleware';
 import * as authController from './auth.controller';
 import { loginSchema } from './auth.schema';
 
-export const authRoutes = Router();
+export const createAuthRoutes = (): Router => {
+  const authRoutes = Router();
 
-const loginLimiter = rateLimit({
-  windowMs: 60 * 1000,
-  max: 5,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: { success: false, message: 'Demasiados intentos de login, intente de nuevo en 1 minuto' }
-});
+  const loginLimiter = rateLimit({
+    windowMs: 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, message: 'Demasiados intentos de login, intente de nuevo en 1 minuto' }
+  });
 
 /**
  * @openapi
@@ -48,7 +49,7 @@ const loginLimiter = rateLimit({
  *       401:
  *         description: Credenciales invalidas
  */
-authRoutes.post('/login', loginLimiter, validate(loginSchema), authController.login);
+  authRoutes.post('/login', loginLimiter, validate(loginSchema), authController.login);
 
 /**
  * @openapi
@@ -65,4 +66,7 @@ authRoutes.post('/login', loginLimiter, validate(loginSchema), authController.lo
  *       401:
  *         description: Token invalido o ausente
  */
-authRoutes.get('/me', authMiddleware, authController.me);
+  authRoutes.get('/me', authMiddleware, authController.me);
+
+  return authRoutes;
+};

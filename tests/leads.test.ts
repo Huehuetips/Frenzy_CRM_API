@@ -28,7 +28,7 @@ const authHeader = () => ({
 const buildLead = (suffix: string, overrides = {}) => ({
   nameLead: `Lead Test ${suffix}`,
   emailLead: `${testRunId}-${suffix}@example.com`,
-  phoneLead: `555-010-${suffix.slice(0, 1)}`,
+  phoneLead: "+52 55 1234 5678",
   sourceLead: `${testRunId}-web`,
   ...overrides,
 });
@@ -402,14 +402,14 @@ describe("Leads CRUD", () => {
       });
 
       const emails = response.body.data.data.map(
-        (lead: { emailLead: string }) => lead.emailLead
+        (lead: { emailLead: string }) => lead.emailLead,
       );
 
       expect(emails).toEqual(
         expect.arrayContaining([
           `${testRunId}-inside-range-a@example.com`,
           `${testRunId}-inside-range-b@example.com`,
-        ])
+        ]),
       );
       expect(emails).not.toContain(`${testRunId}-before-range@example.com`);
       expect(emails).not.toContain(`${testRunId}-after-range@example.com`);
@@ -423,7 +423,7 @@ describe("Leads CRUD", () => {
           });
           expect(createdAt).toBeGreaterThanOrEqual(new Date(from).getTime());
           expect(createdAt).toBeLessThanOrEqual(new Date(to).getTime());
-        }
+        },
       );
     });
 
@@ -655,6 +655,161 @@ describe("Leads CRUD", () => {
         .set(authHeader());
 
       expect(response.status).toBe(400);
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+  });
+
+  describe("Validaciones de QA", () => {
+    it("nameLead con mas de 100 chars retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-long-name", { nameLead: "a".repeat(101) }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("emailLead con mas de 255 chars retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(
+          buildLead("qa-long-email", {
+            emailLead: `${"a".repeat(246)}@example.com`,
+          }),
+        );
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("phoneLead con letras retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-phone-letters", { phoneLead: "abc123" }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("phoneLead con mas de 20 chars retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-long-phone", { phoneLead: "1".repeat(21) }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("sourceLead con mas de 50 chars retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-long-source", { sourceLead: "a".repeat(51) }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("nameLead con espacios se trimmea correctamente", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-trim-name", { nameLead: "  Juan  " }));
+
+      expect(response).toMatchObject({ status: 201 });
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          nameLead: "Juan",
+        },
+      });
+
+      const lead = await prisma.lead.findUnique({
+        where: {
+          idLead: response.body.data.idLead,
+        },
+      });
+
+      expect(lead).toMatchObject({
+        nameLead: "Juan",
+      });
+
+      await prisma.lead.deleteMany({
+        where: {
+          idLead: response.body.data.idLead,
+        },
+      });
+    });
+
+    it("sourceLead se normaliza a lowercase", async () => {
+      const response = await request(app)
+        .post("/api/leads")
+        .set(authHeader())
+        .send(buildLead("qa-lowercase-source", { sourceLead: "GOOGLE" }));
+
+      expect(response).toMatchObject({ status: 201 });
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          sourceLead: "google",
+        },
+      });
+
+      const lead = await prisma.lead.findUnique({
+        where: {
+          idLead: response.body.data.idLead,
+        },
+      });
+
+      expect(lead).toMatchObject({
+        sourceLead: "google",
+      });
+    });
+
+    it("from mayor que to retorna 400", async () => {
+      const response = await request(app)
+        .get("/api/leads")
+        .query({
+          from: "2025-12-31T00:00:00.000Z",
+          to: "2025-01-01T00:00:00.000Z",
+        })
+        .set(authHeader());
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("UUID invalido en delete retorna 400", async () => {
+      const response = await request(app)
+        .delete("/api/leads/invalid-id")
+        .set(authHeader());
+
+      expect(response).toMatchObject({ status: 400 });
       expect(response.body).toMatchObject({
         success: false,
         message: "Validation error",

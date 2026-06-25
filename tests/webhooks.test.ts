@@ -14,7 +14,7 @@ const testRunId = `webhooks-${Date.now()}`;
 const buildWebhookLead = (suffix: string, overrides = {}) => ({
   name: `Webhook Lead ${suffix}`,
   email: `${testRunId}-${suffix}@example.com`,
-  phone: `555-030-${suffix.slice(0, 1)}`,
+  phone: "+52 55 1234 5678",
   source: `${testRunId}-${suffix}`,
   ...overrides,
 });
@@ -121,7 +121,7 @@ describe("Webhooks module", () => {
             typeLeadActivity: LeadActivityType.webhook,
             noteLeadActivity: `Lead ingresado desde ${webhookData.source}`,
           }),
-        ])
+        ]),
       );
     });
 
@@ -232,6 +232,59 @@ describe("Webhooks module", () => {
       expect(response.body).toMatchObject({
         success: false,
         message: "Validation error",
+      });
+    });
+  });
+
+  describe("Validaciones de QA", () => {
+    it("name con mas de 100 chars retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/webhooks/leads")
+        .set("x-api-key", env.WEBHOOK_SECRET)
+        .send(buildWebhookLead("qa-long-name", { name: "a".repeat(101) }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("phone con letras retorna 400", async () => {
+      const response = await request(app)
+        .post("/api/webhooks/leads")
+        .set("x-api-key", env.WEBHOOK_SECRET)
+        .send(buildWebhookLead("qa-phone-letters", { phone: "abc123" }));
+
+      expect(response).toMatchObject({ status: 400 });
+      expect(response.body).toMatchObject({
+        success: false,
+        message: "Validation error",
+      });
+    });
+
+    it("source se normaliza a lowercase", async () => {
+      const response = await request(app)
+        .post("/api/webhooks/leads")
+        .set("x-api-key", env.WEBHOOK_SECRET)
+        .send(buildWebhookLead("qa-lowercase-source", { source: "LANDING" }));
+
+      expect(response).toMatchObject({ status: 201 });
+      expect(response.body).toMatchObject({
+        success: true,
+        data: {
+          sourceLead: "landing",
+        },
+      });
+
+      const lead = await prisma.lead.findUnique({
+        where: {
+          idLead: response.body.data.idLead,
+        },
+      });
+
+      expect(lead).toMatchObject({
+        sourceLead: "landing",
       });
     });
   });
