@@ -1,5 +1,3 @@
-import { LeadActivityType, LeadStatus } from '@prisma/client';
-
 import { createAppError } from '../../shared/errors';
 import { prisma } from '../../shared/prisma';
 import { CreateActivityInput } from './activities.schema';
@@ -39,26 +37,6 @@ export const findByLeadId = async (leadId: string) => {
     },
     orderBy: {
       createdAtLeadActivity: 'desc'
-    }
-  });
-};
-
-export const createStatusChangeActivity = async (leadId: string, newStatus: LeadStatus) => {
-  return prisma.leadActivity.create({
-    data: {
-      leadId,
-      typeLeadActivity: LeadActivityType.status_change,
-      noteLeadActivity: `Estado cambiado a ${newStatus}`
-    }
-  });
-};
-
-export const createWebhookActivity = async (leadId: string, source: string) => {
-  return prisma.leadActivity.create({
-    data: {
-      leadId,
-      typeLeadActivity: LeadActivityType.webhook,
-      noteLeadActivity: `Lead ingresado desde ${source}`
     }
   });
 };
