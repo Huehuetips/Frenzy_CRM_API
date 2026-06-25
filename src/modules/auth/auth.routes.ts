@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import rateLimit from 'express-rate-limit';
 
 import { authMiddleware } from '../../middlewares/auth.middleware';
 import { validate } from '../../middlewares/validate.middleware';
@@ -6,6 +7,14 @@ import * as authController from './auth.controller';
 import { loginSchema } from './auth.schema';
 
 export const authRoutes = Router();
+
+const loginLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Demasiados intentos de login, intente de nuevo en 1 minuto' }
+});
 
 /**
  * @openapi
@@ -39,7 +48,7 @@ export const authRoutes = Router();
  *       401:
  *         description: Credenciales invalidas
  */
-authRoutes.post('/login', validate(loginSchema), authController.login);
+authRoutes.post('/login', loginLimiter, validate(loginSchema), authController.login);
 
 /**
  * @openapi

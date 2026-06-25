@@ -1,5 +1,39 @@
 # Agent Log
 
+## 2026-06-25 — Codex
+
+### Tipo de cambio
+
+QA y seguridad - Validaciones y middlewares
+
+### Archivos modificados
+
+- src/middlewares/error.middleware.ts
+- src/middlewares/auth.middleware.ts
+- src/middlewares/webhook.middleware.ts
+- src/app.ts
+- src/modules/auth/auth.routes.ts
+- src/modules/auth/auth.schema.ts
+- src/modules/leads/leads.schema.ts
+- src/modules/activities/activities.schema.ts
+- src/modules/webhooks/webhooks.schema.ts
+- docs/changelog/CHANGELOG.md
+- docs/changelog/agent-log.md
+
+### Descripcion
+
+Se endurecieron validaciones de entrada con Zod, se agrego limite de 10kb al JSON body, rate limiting al login, comparacion timing-safe para webhooks y validacion del payload JWT. El middleware global de errores ahora responde de forma especifica ante errores conocidos de Prisma.
+
+### Motivo
+
+Aplicar validaciones de seguridad y QA solicitadas sin modificar contratos, tests, documentacion tecnica ni schema de Prisma.
+
+### Pendientes
+
+- Revision de Claude Code.
+
+---
+
 ## 2026-06-25 — Claude Code + Codex + Copilot
 
 ### Tipo de cambio

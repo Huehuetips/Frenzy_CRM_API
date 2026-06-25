@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.5.1] - 2026-06-25
+
+### Changed
+
+- Endurecidas validaciones Zod de auth, leads, activities y webhooks.
+- Middleware global de errores ahora maneja errores conocidos de Prisma.
+- Login protegido con rate limiting y JSON body limitado a 10kb.
+- Middleware de webhook usa comparacion timing-safe.
+- Middleware JWT valida el payload decodificado con Zod.
+
 ## [0.5.0] - 2026-06-25
 
 ### Changed
