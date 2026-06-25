@@ -1,5 +1,34 @@
 # Agent Log
 
+## 2026-06-25 — Claude
+
+### Tipo de cambio
+
+Testing y fix
+
+### Archivos modificados
+
+- tests/auth.test.ts
+- tests/leads.test.ts
+- tests/activities.test.ts
+- tests/webhooks.test.ts
+- src/modules/auth/auth.routes.ts
+- src/app.ts
+
+### Descripcion
+
+Se agregaron tests de QA con una prueba por cada validacion individual (longitud de campos, formato de telefono, trim, normalizacion lowercase, rango de fechas) y se refactorizo auth.routes a una factory createAuthRoutes para aislar el rate limiter por instancia de app, corrigiendo colisiones de contador entre tests. Resultado: 80 tests pasan.
+
+### Motivo
+
+Cierre de Fase 5 con validaciones exhaustivas de QA.
+
+### Pendientes
+
+Ninguno para Fase 5.
+
+---
+
 ## 2026-06-25 — Codex
 
 ### Tipo de cambio

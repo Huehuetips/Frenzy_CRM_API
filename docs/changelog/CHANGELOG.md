@@ -4,6 +4,7 @@
 
 ### Added
 
+- Tests de QA por validacion individual y rate limiter aislado por app (80 tests).
 - Rate limiting en login (5 intentos/min por IP).
 - Manejo de errores Prisma (P2002, P2025, P2003) en middleware global.
 - Validacion de JWT payload con Zod en auth middleware.
