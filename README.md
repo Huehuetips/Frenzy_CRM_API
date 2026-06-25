@@ -32,7 +32,7 @@ API REST para administración de leads, construida con Node.js 22, TypeScript, E
 
 ```bash
 git clone <repo-url>
-cd Frency_CRM
+cd Frenzy_CRM_API
 ```
 
 ### 2. Crear el archivo de variables de entorno
@@ -41,9 +41,7 @@ cd Frency_CRM
 cp .env.example .env
 ```
 
-Edita `.env` y establece valores seguros para producción. Para desarrollo local con Docker los defaults del `.env.example` funcionan sin cambios.
-
-> **Nota importante:** `DATABASE_URL` en `.env` se usa solo para conectar desde el host (ej. cliente SQL externo o tests locales). Docker Compose usa internamente `postgres:5432` y sobreescribe este valor de forma automática.
+El `.env.example` ya está listo para desarrollo con Docker. **No descomentes ni agregues `DATABASE_URL`** — Prisma carga este archivo directamente dentro del contenedor y `localhost` ahí apunta al propio contenedor, no al servicio de PostgreSQL. Docker Compose gestiona la conexión interna de forma automática.
 
 ### 3. Levantar la API y la base de datos
 
@@ -119,6 +117,8 @@ El seed crea automáticamente:
 |---|---|
 | Email | `admin@example.com` |
 | Password | `admin12345` |
+
+Para el endpoint de webhook, el valor por defecto de `WEBHOOK_SECRET` en desarrollo es `change-me-webhook-secret`. Úsalo en el header `x-api-key` al probar `POST /api/webhooks/leads`.
 
 También crea 50 leads distribuidos en todos los estados con actividades de ejemplo.
 
