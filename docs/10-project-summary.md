@@ -549,34 +549,7 @@ Los tests verifican, entre otros casos:
 
 ---
 
-## 11. Multi-agent workflow
-
-El proyecto fue desarrollado bajo un flujo de trabajo colaborativo entre tres agentes:
-
-| Agente | Rol | Responsabilidades |
-|---|---|---|
-| **Codex** | Implementador | Codigo, configuraciones, Prisma, migraciones, tests |
-| **Claude Code** | Arquitecto / Revisor / QA | Documentacion, revision tecnica, hallazgos de seguridad, propuestas |
-| **Copilot** | Documentacion | Generacion de archivos de documentacion tecnica |
-
-### Reglas del flujo
-
-- Codex implementa. Claude Code revisa posteriormente.
-- Claude Code entrega hallazgos y correcciones requeridas; no modifica codigo salvo autorizacion explicita del humano.
-- Todo cambio de codigo pasa por Codex.
-- Ningun agente crea ramas de Git sin autorizacion explicita del humano.
-- Ningun agente introduce dependencias sin justificacion documentada.
-
-### Ejemplo del flujo en Fase 5
-
-1. Claude Code realizo revision de QA y detecto 15 hallazgos (seguridad, validaciones, robustez).
-2. Codex implemento las correcciones (hardening de schemas, rate limit, timing-safe, body limit, JWT payload validation).
-3. Claude Code genero tests de validacion individuales y corrigio la colision del rate limiter entre tests (factory `createAuthRoutes`).
-4. Resultado: 80 tests en verde, sin regressions.
-
----
-
-## 12. Docker
+## 11. Docker
 
 ### Desarrollo (por defecto)
 

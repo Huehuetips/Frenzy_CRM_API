@@ -283,4 +283,3 @@ docker/             Scripts de Docker (entrypoint dev)
 | [Decision Log](./docs/09-decision-log.md) | Decisiones técnicas (DEC-001 a DEC-008) |
 | [Project Summary](./docs/10-project-summary.md) | Resumen completo del proyecto |
 | [Changelog](./docs/changelog/CHANGELOG.md) | Historial de cambios |
-| [Agent Log](./docs/changelog/agent-log.md) | Registro de actividad por agente |
